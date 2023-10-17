@@ -4,7 +4,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
-import com.megacrit.cardcrawl.cards.blue.Zap;
+import com.megacrit.cardcrawl.cards.blue.Rainbow;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -15,10 +15,10 @@ import orbLib.orbs.DefectDarkOrb;
 import orbLib.orbs.DefectFrostOrb;
 import orbLib.orbs.DefectLightningOrb;
 
-@SpirePatch(clz = Zap.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
+@SpirePatch(clz = Rainbow.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
 public class DefectRainbowPatch {
 	@SpirePrefixPatch
-	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Zap __instance, AbstractPlayer p, AbstractMonster m) {
+	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Rainbow __instance, AbstractPlayer p, AbstractMonster m) {
 		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
 			
 		AbstractDungeon.actionManager.addToBottom(new VFXAction(new RainbowCardEffect()));

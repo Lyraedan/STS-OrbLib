@@ -13,16 +13,16 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectFrostOrb;
+import orbLib.orbs.DefectLightningOrb;
 
 @SpirePatch(clz = Zap.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
 public class DefectZapPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Zap __instance, AbstractPlayer p, AbstractMonster m) {
 		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, __instance.damage, __instance.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_HEAVY));
-	    for (int i = 0; i < __instance.magicNumber; i++) {
-	    	AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectFrostOrb(), !isDefect)); 
-	    }
+		for (int i = 0; i < __instance.magicNumber; i++) {
+			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectLightningOrb(), !isDefect));
+		}
 		return SpireReturn.Return();
 	}
 }

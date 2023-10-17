@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
 import orbLib.orbs.DefectDarkOrb;
 import orbLib.orbs.DefectFrostOrb;
 import orbLib.orbs.DefectLightningOrb;
+import orbLib.orbs.DefectPlasmaOrb;
 import orbLib.orbs.ExtendedOrb;
 
 public class OrbLibUtils {
@@ -30,14 +31,13 @@ public class OrbLibUtils {
 	 * <summery>
 	 * Get a random defect orb
 	 * </summery>
-	 * 
 	 * */
 	public static ExtendedOrb getRandomOrb(boolean useCardRng) {
 	    ArrayList<ExtendedOrb> orbs = new ArrayList<>();
 	    orbs.add(new DefectDarkOrb());
 	    orbs.add(new DefectFrostOrb());
 	    orbs.add(new DefectLightningOrb());
-	    //orbs.add(new Plasma());
+	    orbs.add(new DefectPlasmaOrb());
 	    if (useCardRng)
 	      return orbs.get(AbstractDungeon.cardRandomRng.random(orbs.size() - 1)); 
 	    return orbs.get(MathUtils.random(orbs.size() - 1));

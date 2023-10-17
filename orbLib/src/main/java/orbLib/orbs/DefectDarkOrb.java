@@ -46,9 +46,9 @@ public class DefectDarkOrb extends ExtendedOrb {
 		this.ID = "Dark";
 		this.img = ImageMaster.ORB_DARK;
 		this.name = orbString.NAME;
-		this.baseEvokeAmount = 6;
+		this.baseEvokeAmount = EVOKE_AMOUNT;
 		this.evokeAmount = this.baseEvokeAmount;
-		this.basePassiveAmount = 6;
+		this.basePassiveAmount = PASSIVE_AMOUNT;
 		this.passiveAmount = this.basePassiveAmount;
 		updateDescription();
 		this.channelAnimTimer = 0.5F;
@@ -56,7 +56,11 @@ public class DefectDarkOrb extends ExtendedOrb {
 
 	@Override
 	public void onRightClick() {
-		AbstractDungeon.effectsQueue.add(new DarkOrbActivateEffect(this.cX, this.cY));
+		float speedTime = 0.6F / AbstractDungeon.player.orbs.size();
+		if (Settings.FAST_MODE)
+			speedTime = 0.0F;
+		AbstractDungeon.actionManager.addToBottom((AbstractGameAction) new VFXAction(
+				(AbstractGameEffect) new OrbFlareEffect(this, OrbFlareEffect.OrbFlareColor.DARK), speedTime));
 	}
 
 	public void updateDescription() {
@@ -116,6 +120,7 @@ public class DefectDarkOrb extends ExtendedOrb {
 		sb.draw(this.img, this.cX - 48.0F, this.cY - 48.0F + this.bobEffect.y, 48.0F, 48.0F, 96.0F, 96.0F,
 				this.scale * 1.5F, this.scale * 1.5F, this.angle / 1.4F, 0, 0, 96, 96, false, false);
 		sb.setBlendFunction(770, 771);
+		this.c.a = 1.0F;
 		renderText(sb);
 		this.hb.render(sb);
 	}

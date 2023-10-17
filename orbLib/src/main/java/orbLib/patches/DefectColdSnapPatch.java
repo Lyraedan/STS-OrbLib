@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import orbLib.actions.ExtendedChannelAction;
-import orbLib.orbs.DefectZapOrb;
+import orbLib.orbs.DefectLightningOrb;
 
 @SpirePatch(clz = Zap.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
 public class DefectColdSnapPatch {
@@ -17,7 +17,7 @@ public class DefectColdSnapPatch {
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Zap __instance, AbstractPlayer p, AbstractMonster m) {
 		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
 		for (int i = 0; i < __instance.magicNumber; i++) {
-			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectZapOrb(), !isDefect));
+			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectLightningOrb(), !isDefect));
 		}
 		return SpireReturn.Return();
 	}

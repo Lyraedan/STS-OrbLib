@@ -10,14 +10,14 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.CrackedCore;
 
 import orbLib.actions.ExtendedChannelAction;
-import orbLib.orbs.DefectZapOrb;
+import orbLib.orbs.DefectLightningOrb;
 
 @SpirePatch(clz = CrackedCore.class, method = "atPreBattle")
 public class CrackedCorePatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(CrackedCore __instance) {
 		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectZapOrb(), !isDefect));
+		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectLightningOrb(), !isDefect));
 		return SpireReturn.Return();
 	}
 }

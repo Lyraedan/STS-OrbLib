@@ -27,7 +27,7 @@ import com.megacrit.cardcrawl.vfx.combat.LightningOrbActivateEffect;
 import com.megacrit.cardcrawl.vfx.combat.LightningOrbPassiveEffect;
 import com.megacrit.cardcrawl.vfx.combat.OrbFlareEffect;
 
-public class DefectZapOrb extends ExtendedOrb {
+public class DefectLightningOrb extends ExtendedOrb {
 	public static final String ORB_ID = "Lightning";
 	  
 	  private static final OrbStrings orbString = CardCrawlGame.languagePack.getOrbString("Lightning");
@@ -37,7 +37,7 @@ public class DefectZapOrb extends ExtendedOrb {
 	  public static final int PASSIVE_AMOUNT = 3;
 	  public static final int EVOKE_AMOUNT = 3;
 	  
-	  public DefectZapOrb() {
+	  public DefectLightningOrb() {
 	    super(ORB_ID, orbString.NAME, PASSIVE_AMOUNT, EVOKE_AMOUNT, orbString.DESCRIPTION[0], orbString.DESCRIPTION[1], makeOrbPath("lightning_orb.png"));
 	    this.ID = "Lightning";
 	    this.img = ImageMaster.ORB_LIGHTNING;
@@ -49,7 +49,6 @@ public class DefectZapOrb extends ExtendedOrb {
 	    updateDescription();
 	    this.angle = MathUtils.random(360.0F);
 	    this.channelAnimTimer = 0.5F;
-	    System.out.println("Orblib orb!");
 	  }
 	  
 	  @Override
@@ -152,6 +151,6 @@ public class DefectZapOrb extends ExtendedOrb {
 	  }
 	  
 	  public AbstractOrb makeCopy() {
-	    return new DefectZapOrb();
+	    return new DefectLightningOrb();
 	  }
 }

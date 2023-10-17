@@ -14,7 +14,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 
 import orbLib.actions.ExtendedChannelAction;
-import orbLib.orbs.DefectZapOrb;
+import orbLib.orbs.DefectLightningOrb;
 
 @SpirePatch(clz = BallLightning.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
 public class DefectBallLightningPatch {
@@ -23,7 +23,7 @@ public class DefectBallLightningPatch {
 		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
 		AbstractDungeon.actionManager.addToBottom(new DamageAction((AbstractCreature)m, new DamageInfo(p, __instance.damage, __instance.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_HEAVY));
 	    for (int i = 0; i < __instance.magicNumber; i++) {
-	    	AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectZapOrb(), !isDefect));
+	    	AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectLightningOrb(), !isDefect));
 	    }
 		return SpireReturn.Return();
 	}

@@ -49,6 +49,15 @@ public class DefectZapOrb extends ExtendedOrb {
 	    updateDescription();
 	    this.angle = MathUtils.random(360.0F);
 	    this.channelAnimTimer = 0.5F;
+	    System.out.println("Orblib orb!");
+	  }
+	  
+	  @Override
+	  public void onRightClick() {
+		  float speedTime = 0.2F / AbstractDungeon.player.orbs.size();
+	      if (Settings.FAST_MODE)
+	        speedTime = 0.0F; 
+	      AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new VFXAction((AbstractGameEffect)new OrbFlareEffect(this, OrbFlareEffect.OrbFlareColor.LIGHTNING), speedTime));
 	  }
 	  
 	  public void updateDescription() {

@@ -19,30 +19,42 @@ public class OrbListener {
 	 * */
 	public HashMap<String, HashMap<String, OrbListenerAction>> queue = new HashMap<String, HashMap<String, OrbListenerAction>>();
 	
-	public void AddListener(String invokerClassName, String listenerClassName, OrbListenerType listenerType, OrbAction action) {
-		AbstractDungeon.actionManager.addToTop(new AddOrbListenerAction(invokerClassName, listenerClassName, listenerType, action));
+	public void AddListener(Class<?> listener, Class<?> listenFor, OrbListenerType listenerType, OrbAction action) {
+		AbstractDungeon.actionManager.addToTop(new AddOrbListenerAction(listener.getSimpleName(), listenFor.getSimpleName(), listenerType, action));
 	}
 
-	public void RemoveListener(String className, OrbListenerType type) {
-		AbstractDungeon.actionManager.addToTop(new RemoveOrbListenerAction(className, type));
+	public void RemoveListener(Class<?> listener, OrbListenerType type) {
+		AbstractDungeon.actionManager.addToTop(new RemoveOrbListenerAction(listener.getSimpleName(), type));
 	}
 	
-	public void RemoveAllListeners(String className) {
-		RemoveListener(className, OrbListenerType.CHANNELLED);
-		RemoveListener(className, OrbListenerType.EVOKED);
-		RemoveListener(className, OrbListenerType.REMOVED);
+	public void RemoveAllListeners(Class<?> listener) {
+		RemoveListener(listener, OrbListenerType.CHANNELLED);
+		RemoveListener(listener, OrbListenerType.EVOKED);
+		RemoveListener(listener, OrbListenerType.REMOVED);
+		RemoveListener(listener, OrbListenerType.EVOKED_OR_REMOVED);
+		RemoveListener(listener, OrbListenerType.RIGHT_CLICKED);
 	}
 
-	public void OnOrbEvoked(String listenerClassName) {
-		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listenerClassName, OrbListenerType.EVOKED));
+	public void OnOrbEvoked(Class<?> listener) {
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listener.getSimpleName(), OrbListenerType.EVOKED));
+		OnOrbEvokedOrRemoved(listener);
 	}
 	
-	public void OnOrbChannelled(String listenerClassName) {
-		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listenerClassName, OrbListenerType.CHANNELLED));
+	public void OnOrbChannelled(Class<?> listener) {
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listener.getSimpleName(), OrbListenerType.CHANNELLED));
 	}
 	
-	public void OnOrbRemoved(String listenerClassName) {
-		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listenerClassName, OrbListenerType.REMOVED));
+	public void OnOrbRemoved(Class<?> listener) {
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listener.getSimpleName(), OrbListenerType.REMOVED));
+		OnOrbEvokedOrRemoved(listener);
+	}
+	
+	public void OnOrbEvokedOrRemoved(Class<?> listener) {
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listener.getSimpleName(), OrbListenerType.EVOKED_OR_REMOVED));
+	}
+	
+	public void OnOrbRightClicked(Class<?> listener) {
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listener.getSimpleName(), OrbListenerType.RIGHT_CLICKED));
 	}
 	
 }

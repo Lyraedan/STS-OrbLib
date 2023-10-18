@@ -69,7 +69,6 @@ public class DefectDarkOrb extends ExtendedOrb {
 	}
 
 	public void onEvoke() {
-		super.onEvoke();
 		AbstractDungeon.actionManager.addToTop(
 				(AbstractGameAction) new DarkOrbEvokeAction(new DamageInfo((AbstractCreature) AbstractDungeon.player,
 						this.evokeAmount, DamageInfo.DamageType.THORNS), AbstractGameAction.AttackEffect.FIRE));

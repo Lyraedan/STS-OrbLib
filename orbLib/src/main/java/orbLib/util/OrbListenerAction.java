@@ -3,7 +3,7 @@ package orbLib.util;
 public class OrbListenerAction {
 	
 	public enum OrbListenerType {
-		CHANNELLED, EVOKED, REMOVED
+		CHANNELLED, EVOKED, REMOVED, EVOKED_OR_REMOVED, RIGHT_CLICKED
 	}
 	
 	public String orbToListenFor = "None";

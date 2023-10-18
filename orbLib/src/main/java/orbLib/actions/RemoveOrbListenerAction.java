@@ -30,7 +30,7 @@ public class RemoveOrbListenerAction extends AbstractGameAction {
 			this.isDone = true;
 			return;
 		}
-		System.out.println("Removing listener for " + this.className);
+		System.out.println("Removing a listener for " + this.className);
 		
 		HashMap<String, OrbListenerAction> orbListener = OrbLib.orbListener.queue.get(this.className);
 		if(orbListener == null) {
@@ -58,6 +58,7 @@ public class RemoveOrbListenerAction extends AbstractGameAction {
 		
 		// There are no more listeners remove the root
 		if(orbListener.isEmpty()) {
+			System.out.println("No more nested listeners removing " + this.className + " from queue");
 			OrbLib.orbListener.queue.remove(this.className); // Remove the orb listener
 		}
 		

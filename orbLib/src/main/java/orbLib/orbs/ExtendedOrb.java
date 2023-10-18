@@ -32,14 +32,14 @@ public abstract class ExtendedOrb extends CustomOrb {
 			String evokeDescription) {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription);
 		className = getClass().getSimpleName();
-		OrbLib.orbListener.OnOrbChannelled(className);
+		OrbLib.orbListener.OnOrbChannelled(getClass());
 	}
 
 	public ExtendedOrb(String ID, String NAME, int basePassiveAmount, int baseEvokeAmount, String passiveDescription,
 			String evokeDescription, String imgPath) {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription, imgPath);
 		className = getClass().getSimpleName();
-		OrbLib.orbListener.OnOrbChannelled(className);
+		OrbLib.orbListener.OnOrbChannelled(getClass());
 	}
 
 	public void clickUpdate() {
@@ -48,6 +48,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 			if (HitboxRightClick.rightClicked.get(orb.hb)
 					|| (Settings.isControllerMode && orb.hb.hovered && CInputActionSet.topPanel.isJustPressed())) {
 				CInputActionSet.topPanel.unpress();
+				OrbLib.orbListener.OnOrbRightClicked(getClass());
 				onRightClick();
 			}
 		}
@@ -65,23 +66,6 @@ public abstract class ExtendedOrb extends CustomOrb {
 	}
 	
 	public void onRemoved() {
-	}
-
-	@Override
-	public void onEvoke() {
-		OrbLib.orbListener.OnOrbEvoked(this.className);
-	}
-
-	@Override
-	public void onStartOfTurn() {
-
-	}
-
-	@Override
-	public void onEndOfTurn() {
-		if (this.loseEffectOverTime) {
-			OnLoseEffectOverTime();
-		}
 	}
 
 	public void OnLoseEffectOverTime() {
@@ -221,7 +205,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 
 			if(orb instanceof ExtendedOrb) {
 				onRemoved();
-				OrbLib.orbListener.OnOrbRemoved(this.className);
+				OrbLib.orbListener.OnOrbRemoved(getClass());
 			}
 			
 			player.orbs.set(orbIndex, emptyOrbSlot);
@@ -279,10 +263,10 @@ public abstract class ExtendedOrb extends CustomOrb {
 		return index;
 	}
 
-	public void RemoveOrbListener(String orbName) {
-		boolean orbStillExists = OrbExists(orbName);
+	public void RemoveOrbListener(Class<?> orbClass) {
+		boolean orbStillExists = OrbExists(orbClass.getSimpleName());
 		if (!orbStillExists) {
-			OrbLib.orbListener.RemoveAllListeners(orbName);
+			OrbLib.orbListener.RemoveAllListeners(orbClass);
 		}
 	}
 

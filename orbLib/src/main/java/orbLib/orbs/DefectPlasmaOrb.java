@@ -68,7 +68,6 @@ public class DefectPlasmaOrb extends ExtendedOrb {
 	}
 
 	public void onEvoke() {
-		super.onEvoke();
 		AbstractDungeon.actionManager.addToTop((AbstractGameAction) new GainEnergyAction(this.evokeAmount));
 	}
 

@@ -10,11 +10,11 @@ import orbLib.OrbLib;
 import orbLib.util.OrbListenerAction;
 import orbLib.util.OrbListenerAction.OrbListenerType;
 
-public class EvokeOrbListenerAction extends AbstractGameAction {
+public class ChannelOrbListenerAction extends AbstractGameAction {
 
 	private String className;
 	
-	public EvokeOrbListenerAction(String className) {
+	public ChannelOrbListenerAction(String className) {
 		amount = 1;
 		actionType = ActionType.SPECIAL;
 		duration = Settings.ACTION_DUR_FAST;
@@ -24,6 +24,10 @@ public class EvokeOrbListenerAction extends AbstractGameAction {
 	@Override
 	public void update() {		
 		// Find any orbs listening to this orb and trigger their listeners
+		/**
+		 * Key <INVOKER>_<LISTENER>_<TYPE>
+		 * Value ListenerAction
+		 * */
 		HashMap<String, OrbListenerAction> orbListener = OrbLib.orbListener.queue.get(className);
 		if(orbListener == null) {
 			this.isDone = true;
@@ -42,8 +46,8 @@ public class EvokeOrbListenerAction extends AbstractGameAction {
 				this.isDone = true;
 				return;
 			}
-			if(action.orbToListenFor.equals(className) && action.type.equals(OrbListenerType.EVOKED)) {
-				System.out.println(className + " was evoked!");
+			if(action.orbToListenFor.equals(className) && action.type.equals(OrbListenerType.CHANNELLED)) {
+				System.out.println(className + " was channelled!");
 				action.action.Invoke(className);
 			}
 		}

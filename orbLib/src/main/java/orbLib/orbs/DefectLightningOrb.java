@@ -65,6 +65,7 @@ public class DefectLightningOrb extends ExtendedOrb {
 	  }
 	  
 	  public void onEvoke() {
+		super.onEvoke();
 	    if (AbstractDungeon.player.hasPower("Electro")) {
 	      AbstractDungeon.actionManager.addToTop((AbstractGameAction)new LightningOrbEvokeAction(new DamageInfo((AbstractCreature)AbstractDungeon.player, this.evokeAmount, DamageInfo.DamageType.THORNS), true));
 	    } else {

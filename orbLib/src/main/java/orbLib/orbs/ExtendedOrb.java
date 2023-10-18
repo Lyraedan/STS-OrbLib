@@ -32,12 +32,14 @@ public abstract class ExtendedOrb extends CustomOrb {
 			String evokeDescription) {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription);
 		className = getClass().getSimpleName();
+		OrbLib.orbListener.OnOrbChannelled(className);
 	}
 
 	public ExtendedOrb(String ID, String NAME, int basePassiveAmount, int baseEvokeAmount, String passiveDescription,
 			String evokeDescription, String imgPath) {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription, imgPath);
 		className = getClass().getSimpleName();
+		OrbLib.orbListener.OnOrbChannelled(className);
 	}
 
 	public void clickUpdate() {
@@ -60,6 +62,9 @@ public abstract class ExtendedOrb extends CustomOrb {
 	}
 
 	public void onRightClick() {
+	}
+	
+	public void onRemoved() {
 	}
 
 	@Override
@@ -214,6 +219,10 @@ public abstract class ExtendedOrb extends CustomOrb {
 		if (!player.orbs.isEmpty() && !(orb instanceof EmptyOrbSlot)) {
 			EmptyOrbSlot emptyOrbSlot = new EmptyOrbSlot(orb.cX, orb.cY);
 
+			if(orb instanceof ExtendedOrb) {
+				onRemoved();
+			}
+			
 			player.orbs.set(orbIndex, emptyOrbSlot);
 
 			for (int i = orbIndex; i < player.orbs.size() - 1; i++) {
@@ -272,7 +281,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 	public void RemoveOrbListener(String orbName) {
 		boolean orbStillExists = OrbExists(orbName);
 		if (!orbStillExists) {
-			OrbLib.orbListener.RemoveListener(orbName);
+			OrbLib.orbListener.RemoveAllListeners(orbName);
 		}
 	}
 

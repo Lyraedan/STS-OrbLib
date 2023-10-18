@@ -67,6 +67,7 @@ public class DefectFrostOrb extends ExtendedOrb {
 	}
 
 	public void onEvoke() {
+		super.onEvoke();
 		AbstractDungeon.actionManager
 				.addToTop((AbstractGameAction) new GainBlockAction((AbstractCreature) AbstractDungeon.player,
 						(AbstractCreature) AbstractDungeon.player, this.evokeAmount));

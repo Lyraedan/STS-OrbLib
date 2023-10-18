@@ -1,57 +1,60 @@
 package orbLib.actions;
 
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import orbLib.OrbLib;
-import orbLib.orbs.ExtendedOrb;
 import orbLib.util.OrbAction;
 import orbLib.util.OrbListenerAction;
-import orbLib.util.OrbLibUtils;
+import orbLib.util.OrbListenerAction.OrbListenerType;
 
 public class AddOrbListenerAction extends AbstractGameAction {
 
 	public String invokerClassName;
-	public String className;
+	public String listenerClassName;
+	public OrbListenerType type;
 	public OrbAction action;
 
-	public AddOrbListenerAction(String invokerClassName, String className, OrbAction action) {
+	public AddOrbListenerAction(String invokerClassName, String listenerClassName, OrbListenerType type, OrbAction action) {
 		amount = 1;
 		actionType = ActionType.SPECIAL;
 		duration = Settings.ACTION_DUR_FAST;
 		this.invokerClassName = invokerClassName;
-		this.className = className;
+		this.listenerClassName = listenerClassName;
+		this.type = type;
 		this.action = action;
 	}
 
 	@Override
 	public void update() {
-		if (OrbLib.orbListener.queue.containsKey(className)) {
-			HashMap<String, OrbListenerAction> queueMap = OrbLib.orbListener.queue.get(className);
-			if(queueMap.containsKey(invokerClassName)) {
+		String key = invokerClassName + "_" + this.listenerClassName + "_" + this.type.toString();
+		if (OrbLib.orbListener.queue.containsKey(this.listenerClassName)) {
+			HashMap<String, OrbListenerAction> queueMap = OrbLib.orbListener.queue.get(this.listenerClassName);
+			if(queueMap.containsKey(key)) {
 				this.isDone = true;
 				return;
 			}
-			System.out.println(className + " already has listeners, adding to listener queue from " + invokerClassName);
 			OrbListenerAction listener = new OrbListenerAction();
-			listener.orbToListenFor = this.className;
+			listener.orbToListenFor = this.listenerClassName;
 			listener.action = action;
-			queueMap.put(invokerClassName, listener);
+			listener.type = type;
+			
+			System.out.println("Orb already has listener : Added new " + key);
+			queueMap.put(key, listener);
 			this.isDone = true;
 			return;
 		}
 		OrbListenerAction listener = new OrbListenerAction();
-		listener.orbToListenFor = this.className;
-		listener.action = action;
-		System.out.println("Adding listener for " + this.className);
+		listener.orbToListenFor = this.listenerClassName;
+		listener.type = this.type;
+		listener.action = this.action;
 		
 		HashMap<String, OrbListenerAction> map = new HashMap<String, OrbListenerAction>();
-		map.put(invokerClassName, listener);
-		OrbLib.orbListener.queue.put(this.className, map);
+		map.put(key, listener);
+		System.out.println("Adding first orb listener for " + key);
+		OrbLib.orbListener.queue.put(this.listenerClassName, map);
 		this.isDone = true;
 	}
 

@@ -122,4 +122,9 @@ public class DefectFrostOrb extends ExtendedOrb {
 	public AbstractOrb makeCopy() {
 		return new Frost();
 	}
+
+	@Override
+	public void onRemoved() {
+		
+	}
 }

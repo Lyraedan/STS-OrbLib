@@ -153,4 +153,9 @@ public class DefectLightningOrb extends ExtendedOrb {
 	  public AbstractOrb makeCopy() {
 	    return new DefectLightningOrb();
 	  }
+
+	@Override
+	public void onRemoved() {
+		
+	}
 }

@@ -122,4 +122,9 @@ public class DefectPlasmaOrb extends ExtendedOrb {
 	public AbstractOrb makeCopy() {
 		return new Plasma();
 	}
+
+	@Override
+	public void onRemoved() {
+		
+	}
 }

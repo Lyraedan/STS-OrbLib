@@ -1,12 +1,8 @@
 package orbLib.orbs;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.patches.HitboxRightClick;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -18,6 +14,7 @@ import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
 import basemod.abstracts.CustomOrb;
 import orbLib.OrbLib;
 import orbLib.actions.ReduceOrbUseageAction;
+import orbLib.util.OrbLibUtils;
 
 public abstract class ExtendedOrb extends CustomOrb {
 
@@ -62,11 +59,9 @@ public abstract class ExtendedOrb extends CustomOrb {
 		return false;
 	}
 
-	public void onRightClick() {
-	}
+	public void onRightClick() { }
 	
-	public void onRemoved() {
-	}
+	public void onRemoved() { }
 
 	public void OnLoseEffectOverTime() {
 		AbstractDungeon.actionManager.addToBottom(new ReduceOrbUseageAction(this));
@@ -171,10 +166,10 @@ public abstract class ExtendedOrb extends CustomOrb {
 	}
 
 	/***
-	 * <summary> Used for debugging </summary>
-	 * 
+	 * @@Deprecated Used for debugging
 	 * @param sb
 	 */
+	@Deprecated
 	public void RenderOrbIndexes(SpriteBatch sb) {
 		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
 			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
@@ -187,110 +182,20 @@ public abstract class ExtendedOrb extends CustomOrb {
 	// HELPER FUNCTIONS
 
 	public void remove() {
-		int orbIndex = GetOrbIndex(this);
-		removeOrbAt(orbIndex);
+		int orbIndex = OrbLibUtils.GetOrbIndex(this);
+		OrbLibUtils.removeOrbAt(orbIndex);
 	}
 
 	public void evoke() {
-		int orbIndex = GetOrbIndex(this);
-		evokeOrbAt(orbIndex);
+		int orbIndex = OrbLibUtils.GetOrbIndex(this);
+		OrbLibUtils.evokeOrbAt(orbIndex);
 	}
-
-	public void removeOrbAt(int orbIndex) {
-		AbstractPlayer player = AbstractDungeon.player;
-		AbstractOrb orb = player.orbs.get(orbIndex);
-
-		if (!player.orbs.isEmpty() && !(orb instanceof EmptyOrbSlot)) {
-			EmptyOrbSlot emptyOrbSlot = new EmptyOrbSlot(orb.cX, orb.cY);
-
-			if(orb instanceof ExtendedOrb) {
-				onRemoved();
-				OrbLib.orbListener.OnOrbRemoved(getClass());
-			}
-			
-			player.orbs.set(orbIndex, emptyOrbSlot);
-
-			for (int i = orbIndex; i < player.orbs.size() - 1; i++) {
-				Collections.swap(player.orbs, i, i + 1);
-			}
-
-			for (int i = 0; i < player.orbs.size(); i++) {
-				((AbstractOrb) player.orbs.get(i)).setSlot(i, player.maxOrbs);
-			}
-		}
-	}
-
-	public void evokeOrbAt(int orbIndex) {
-		AbstractPlayer player = AbstractDungeon.player;
-		AbstractOrb orb = player.orbs.get(orbIndex);
-
-		if (!player.orbs.isEmpty() && !(orb instanceof EmptyOrbSlot)) {
-			EmptyOrbSlot emptyOrbSlot = new EmptyOrbSlot(orb.cX, orb.cY);
-
-			orb.onEvoke();
-			player.orbs.set(orbIndex, emptyOrbSlot);
-
-			for (int i = orbIndex; i < player.orbs.size() - 1; i++) {
-				Collections.swap(player.orbs, i, i + 1);
-			}
-
-			for (int i = 0; i < player.orbs.size(); i++) {
-				((AbstractOrb) player.orbs.get(i)).setSlot(i, player.maxOrbs);
-			}
-		}
-	}
-
-	public void evokeOrbAtDontRemove(int orbIndex) {
-		AbstractPlayer player = AbstractDungeon.player;
-		AbstractOrb orb = player.orbs.get(orbIndex);
-
-		if (!player.orbs.isEmpty() && !(orb instanceof EmptyOrbSlot)) {
-			orb.onEvoke();
-		}
-	}
-
-	public int GetOrbIndex(AbstractOrb orb) {
-		int index = 0; // First
-		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
-			AbstractOrb slot = AbstractDungeon.player.orbs.get(i);
-			if (!(slot instanceof EmptyOrbSlot)) {
-				if (slot.equals(orb)) {
-					index = i;
-					break;
-				}
-			}
-		}
-		return index;
-	}
-
+	
 	public void RemoveOrbListener(Class<?> orbClass) {
-		boolean orbStillExists = OrbExists(orbClass.getSimpleName());
+		boolean orbStillExists = OrbLibUtils.OrbExists(orbClass.getSimpleName());
 		if (!orbStillExists) {
 			OrbLib.orbListener.RemoveAllListeners(orbClass);
 		}
-	}
-
-	public boolean OrbExists(String orbName) {
-		boolean result = false;
-		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
-			String name = AbstractDungeon.player.orbs.get(i).getClass().getSimpleName();
-			if (name.equals(orbName)) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public ArrayList<AbstractOrb> GetOrbsNotEmpty() {
-		ArrayList<AbstractOrb> orbs = new ArrayList<AbstractOrb>();
-		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
-			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
-			if (!(orb instanceof EmptyOrbSlot)) {
-				orbs.add(orb);
-			}
-		}
-		return orbs;
 	}
 
 }

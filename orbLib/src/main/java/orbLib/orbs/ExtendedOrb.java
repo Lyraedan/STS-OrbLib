@@ -221,6 +221,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 
 			if(orb instanceof ExtendedOrb) {
 				onRemoved();
+				OrbLib.orbListener.OnOrbRemoved(this.className);
 			}
 			
 			player.orbs.set(orbIndex, emptyOrbSlot);

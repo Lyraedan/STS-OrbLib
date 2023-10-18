@@ -56,6 +56,7 @@ public class RemoveOrbListenerAction extends AbstractGameAction {
 		    }
 		}
 		
+		// There are no more listeners remove the root
 		if(orbListener.isEmpty()) {
 			OrbLib.orbListener.queue.remove(this.className); // Remove the orb listener
 		}

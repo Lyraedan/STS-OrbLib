@@ -5,9 +5,8 @@ import java.util.HashMap;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import orbLib.actions.AddOrbListenerAction;
-import orbLib.actions.ChannelOrbListenerAction;
-import orbLib.actions.EvokeOrbListenerAction;
 import orbLib.actions.RemoveOrbListenerAction;
+import orbLib.actions.TriggerOrbListenerAction;
 import orbLib.util.OrbListenerAction.OrbListenerType;
 
 public class OrbListener {
@@ -31,14 +30,19 @@ public class OrbListener {
 	public void RemoveAllListeners(String className) {
 		RemoveListener(className, OrbListenerType.CHANNELLED);
 		RemoveListener(className, OrbListenerType.EVOKED);
+		RemoveListener(className, OrbListenerType.REMOVED);
 	}
 
 	public void OnOrbEvoked(String listenerClassName) {
-		AbstractDungeon.actionManager.addToTop(new EvokeOrbListenerAction(listenerClassName));
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listenerClassName, OrbListenerType.EVOKED));
 	}
 	
 	public void OnOrbChannelled(String listenerClassName) {
-		AbstractDungeon.actionManager.addToTop(new ChannelOrbListenerAction(listenerClassName));
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listenerClassName, OrbListenerType.CHANNELLED));
+	}
+	
+	public void OnOrbRemoved(String listenerClassName) {
+		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listenerClassName, OrbListenerType.REMOVED));
 	}
 	
 }

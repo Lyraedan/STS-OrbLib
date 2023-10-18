@@ -10,15 +10,17 @@ import orbLib.OrbLib;
 import orbLib.util.OrbListenerAction;
 import orbLib.util.OrbListenerAction.OrbListenerType;
 
-public class EvokeOrbListenerAction extends AbstractGameAction {
+public class TriggerOrbListenerAction extends AbstractGameAction {
 
 	private String className;
+	private OrbListenerType type;
 	
-	public EvokeOrbListenerAction(String className) {
+	public TriggerOrbListenerAction(String className, OrbListenerType type) {
 		amount = 1;
 		actionType = ActionType.SPECIAL;
 		duration = Settings.ACTION_DUR_FAST;
 		this.className = className;
+		this.type = type;
 	}
 	
 	@Override
@@ -42,8 +44,8 @@ public class EvokeOrbListenerAction extends AbstractGameAction {
 				this.isDone = true;
 				return;
 			}
-			if(action.orbToListenFor.equals(className) && action.type.equals(OrbListenerType.EVOKED)) {
-				System.out.println(className + " was evoked!");
+			if(action.orbToListenFor.equals(className) && action.type.equals(type)) {
+				System.out.println(className + " was " + type.toString() + "!");
 				action.action.Invoke(className);
 			}
 		}

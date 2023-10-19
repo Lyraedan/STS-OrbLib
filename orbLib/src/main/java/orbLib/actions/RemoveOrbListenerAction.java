@@ -29,9 +29,7 @@ public class RemoveOrbListenerAction extends AbstractGameAction {
 		if (!OrbLib.orbListener.queue.containsKey(this.className)) {
 			this.isDone = true;
 			return;
-		}
-		System.out.println("Removing a listener for " + this.className);
-		
+		}		
 		HashMap<String, OrbListenerAction> orbListener = OrbLib.orbListener.queue.get(this.className);
 		if(orbListener == null) {
 			this.isDone = true;

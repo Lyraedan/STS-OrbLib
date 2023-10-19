@@ -63,7 +63,6 @@ public class OrbListener {
 	 * </summary>
 	 * **/
 	public void ForceClearQueue() {
-		System.out.println("Clearing orb listener queue.");
 		this.queue.clear();
 	}
 	

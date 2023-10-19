@@ -62,7 +62,13 @@ public abstract class ExtendedOrb extends CustomOrb {
 	public void onRightClick() { }
 	
 	public void onRemoved() { }
+	
+	public void onVictory(boolean playerIsDying) { }
 
+	public void onStartOfCombat() {
+		
+	}
+	
 	public void OnLoseEffectOverTime() {
 		AbstractDungeon.actionManager.addToBottom(new ReduceOrbUseageAction(this));
 	}

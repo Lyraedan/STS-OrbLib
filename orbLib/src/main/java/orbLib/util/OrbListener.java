@@ -57,4 +57,14 @@ public class OrbListener {
 		AbstractDungeon.actionManager.addToTop(new TriggerOrbListenerAction(listener.getSimpleName(), OrbListenerType.RIGHT_CLICKED));
 	}
 	
+	/**
+	 * <summary> 
+	 * Used for start and end of combat queue checks
+	 * </summary>
+	 * **/
+	public void ForceClearQueue() {
+		System.out.println("Clearing orb listener queue.");
+		this.queue.clear();
+	}
+	
 }

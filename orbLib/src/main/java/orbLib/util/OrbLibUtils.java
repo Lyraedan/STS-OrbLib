@@ -92,57 +92,33 @@ public class OrbLibUtils {
 	}
 	
 	public static int removeOrbsOfType(Class<?> orbClass) {
-		List<AbstractOrb> orbsToRemove = new ArrayList<AbstractOrb>();
-		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
-			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
-			if(orb instanceof ExtendedOrb) {
-				if(orb.getClass().equals(orbClass)) {
-					orbsToRemove.add(orb);
-				}
-			}
-		}
+		List<AbstractOrb> orbs = GetOrbsOfType(orbClass);
 		
-		for(int i = 0; i < orbsToRemove.size(); i++) {
-			int index = GetOrbIndex(orbsToRemove.get(i));
+		for(int i = 0; i < orbs.size(); i++) {
+			int index = GetOrbIndex(orbs.get(i));
 			removeOrbAt(index);
 		}
-		return orbsToRemove.size(); // Return the count incase a user wants to do something for every removed orb
+		return orbs.size(); // Return the count incase a user wants to do something for every removed orb
 	}
 	
 	public static int evokeOrbsOfType(Class<?> orbClass) {
-		List<AbstractOrb> orbsToRemove = new ArrayList<AbstractOrb>();
-		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
-			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
-			if(orb instanceof ExtendedOrb) {
-				if(orb.getClass().equals(orbClass)) {
-					orbsToRemove.add(orb);
-				}
-			}
-		}
+		List<AbstractOrb> orbs = GetOrbsOfType(orbClass);
 		
-		for(int i = 0; i < orbsToRemove.size(); i++) {
-			int index = GetOrbIndex(orbsToRemove.get(i));
+		for(int i = 0; i < orbs.size(); i++) {
+			int index = GetOrbIndex(orbs.get(i));
 			evokeOrbAt(index);
 		}
-		return orbsToRemove.size(); // Return the count incase a user wants to do something for every removed orb
+		return orbs.size(); // Return the count incase a user wants to do something for every removed orb
 	}
 	
 	public static int evokeOrbsOfTypeDontRemove(Class<?> orbClass) {
-		List<AbstractOrb> orbsToRemove = new ArrayList<AbstractOrb>();
-		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
-			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
-			if(orb instanceof ExtendedOrb) {
-				if(orb.getClass().equals(orbClass)) {
-					orbsToRemove.add(orb);
-				}
-			}
-		}
+		List<AbstractOrb> orbs = GetOrbsOfType(orbClass);
 		
-		for(int i = 0; i < orbsToRemove.size(); i++) {
-			int index = GetOrbIndex(orbsToRemove.get(i));
+		for(int i = 0; i < orbs.size(); i++) {
+			int index = GetOrbIndex(orbs.get(i));
 			evokeOrbAtDontRemove(index);
 		}
-		return orbsToRemove.size(); // Return the count incase a user wants to do something for every removed orb
+		return orbs.size(); // Return the count incase a user wants to do something for every removed orb
 	}
 
 	public static void evokeOrbAtDontRemove(int orbIndex) {
@@ -178,6 +154,19 @@ public class OrbLibUtils {
 			}
 		}
 		return result;
+	}
+	
+	public static ArrayList<AbstractOrb> GetOrbsOfType(Class<?> orbClass) {
+		ArrayList<AbstractOrb> orbs = new ArrayList<AbstractOrb>();
+		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
+			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
+			if(orb instanceof ExtendedOrb) {
+				if(orb.getClass().equals(orbClass)) {
+					orbs.add(orb);
+				}
+			}
+		}
+		return orbs;
 	}
 
 	public static ArrayList<AbstractOrb> GetOrbsNotEmpty() {

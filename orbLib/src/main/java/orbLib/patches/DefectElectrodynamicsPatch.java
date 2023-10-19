@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.ElectroPower;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectLightningOrb;
 
@@ -19,14 +20,16 @@ public class DefectElectrodynamicsPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Electrodynamics __instance, AbstractPlayer p,
 			AbstractMonster m) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
 		if (!p.hasPower("Electrodynamics"))
 			AbstractDungeon.actionManager
 					.addToBottom(new ApplyPowerAction(p, p, new ElectroPower((AbstractCreature) p)));
 		for (int i = 0; i < __instance.magicNumber; i++) {
 			DefectLightningOrb lightning = new DefectLightningOrb();
-			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(lightning, !isDefect));
+			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(lightning, OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL));
 		}
 
 		return SpireReturn.Return();

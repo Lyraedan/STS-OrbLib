@@ -18,12 +18,17 @@ import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.combat.BlizzardEffect;
 
+import orbLib.OrbLib;
 import orbLib.orbs.DefectFrostOrb;
 
 @SpirePatch(clz = Blizzard.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
 public class DefectBlizzardPatch {
 	@SpirePrefixPatch
-	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Blizzard __instance, AbstractPlayer p, AbstractMonster m) {		
+	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Blizzard __instance, AbstractPlayer p, AbstractMonster m) {
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
 		int frostCount = 0;
 	    for (AbstractOrb o : AbstractDungeon.actionManager.orbsChanneledThisCombat) {
 	      if (o instanceof DefectFrostOrb)

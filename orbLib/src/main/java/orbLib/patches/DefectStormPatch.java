@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import com.megacrit.cardcrawl.powers.StormPower;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectLightningOrb;
 
@@ -17,12 +18,14 @@ import orbLib.orbs.DefectLightningOrb;
 public class DefectStormPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(StormPower __instance, AbstractCard card, UseCardAction action) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+				
 		if (card.type == AbstractCard.CardType.POWER && __instance.amount > 0) {
 			__instance.flash();
 		      for (int i = 0; i < __instance.amount; i++)
-		        AbstractDungeon.actionManager.addToBottom((new ExtendedChannelAction(new DefectLightningOrb(), !isDefect))); 
+		        AbstractDungeon.actionManager.addToBottom((new ExtendedChannelAction(new DefectLightningOrb(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL))); 
 		    } 
 		
 		return SpireReturn.Return();

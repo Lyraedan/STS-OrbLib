@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 
+import orbLib.OrbLib;
 import orbLib.orbs.DefectLightningOrb;
 
 @SpirePatch(clz = ThunderStrike.class, method = "use", paramtypez = { AbstractPlayer.class, AbstractMonster.class, })
@@ -18,7 +19,10 @@ public class DefectThunderStrikePatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(ThunderStrike __instance, AbstractPlayer p,
 			AbstractMonster m) {
-
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
 		__instance.baseMagicNumber = 0;
 		for (AbstractOrb o : AbstractDungeon.actionManager.orbsChanneledThisCombat) {
 			if (o instanceof DefectLightningOrb)

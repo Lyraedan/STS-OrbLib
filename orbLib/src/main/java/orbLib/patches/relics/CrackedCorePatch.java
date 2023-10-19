@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.CrackedCore;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectLightningOrb;
 
@@ -16,8 +17,11 @@ import orbLib.orbs.DefectLightningOrb;
 public class CrackedCorePatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(CrackedCore __instance) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectLightningOrb(), !isDefect));
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
+		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectLightningOrb(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL));
 		return SpireReturn.Return();
 	}
 }

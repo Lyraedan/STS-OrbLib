@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectFrostOrb;
 
@@ -16,8 +17,11 @@ import orbLib.orbs.DefectFrostOrb;
 public class DefectCoolheadedPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Coolheaded __instance, AbstractPlayer p, AbstractMonster m) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectFrostOrb(), !isDefect));
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
+		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectFrostOrb(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL));
 		AbstractDungeon.actionManager.addToBottom(new DrawCardAction(p, __instance.magicNumber));
 		return SpireReturn.Return();
 	}

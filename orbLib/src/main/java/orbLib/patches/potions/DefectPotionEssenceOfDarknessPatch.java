@@ -9,16 +9,20 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.potions.EssenceOfDarkness;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
+import orbLib.OrbLib;
 import orbLib.actions.DefectEssenceOfDarknessPatchedAction;
 
 @SpirePatch(clz = EssenceOfDarkness.class, method = "use", paramtypez = { AbstractCreature.class })
 public class DefectPotionEssenceOfDarknessPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(EssenceOfDarkness __instance, AbstractCreature target) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
 		if ((AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT) {
 			AbstractDungeon.actionManager.addToBottom(
-					(AbstractGameAction) new DefectEssenceOfDarknessPatchedAction(__instance.getPotency(), !isDefect));
+					(AbstractGameAction) new DefectEssenceOfDarknessPatchedAction(__instance.getPotency(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL));
 		}
 		return SpireReturn.Return();
 	}

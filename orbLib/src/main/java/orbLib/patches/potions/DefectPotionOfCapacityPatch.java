@@ -9,12 +9,17 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.potions.PotionOfCapacity;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
+import orbLib.OrbLib;
 import orbLib.util.OrbLibUtils;
 
 @SpirePatch(clz = PotionOfCapacity.class, method = "use", paramtypez = { AbstractCreature.class })
 public class DefectPotionOfCapacityPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(PotionOfCapacity __instance, AbstractCreature target) {		
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
 		if ((AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT) {
 			OrbLibUtils.increaseMaxOrbSlotsCapless(__instance.getPotency(), false);	
 		}

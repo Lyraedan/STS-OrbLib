@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.combat.WeightyImpactEffect;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectPlasmaOrb;
 
@@ -23,8 +24,10 @@ public class DefectMeteorStrikePatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(MeteorStrike __instance, AbstractPlayer p,
 			AbstractMonster m) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+		
 		if (m != null)
 			AbstractDungeon.actionManager.addToBottom(new VFXAction(new WeightyImpactEffect(m.hb.cX, m.hb.cY)));
 			AbstractDungeon.actionManager.addToBottom(new WaitAction(0.8F));
@@ -32,7 +35,7 @@ public class DefectMeteorStrikePatch {
 				new DamageInfo((AbstractCreature) p, __instance.damage, __instance.damageTypeForTurn),
 				AbstractGameAction.AttackEffect.NONE));
 		for (int i = 0; i < __instance.magicNumber; i++) {
-			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectPlasmaOrb(), !isDefect));
+			AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectPlasmaOrb(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL));
 		}
 
 		return SpireReturn.Return();

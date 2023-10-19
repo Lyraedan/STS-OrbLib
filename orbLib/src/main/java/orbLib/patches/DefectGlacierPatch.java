@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectFrostOrb;
 
@@ -18,11 +19,13 @@ import orbLib.orbs.DefectFrostOrb;
 public class DefectGlacierPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Glacier __instance, AbstractPlayer p, AbstractMonster m) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+				
 		AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new GainBlockAction((AbstractCreature)p, (AbstractCreature)p, __instance.block));
 	    for (int i = 0; i < __instance.magicNumber; i++)
-	    	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ExtendedChannelAction(new DefectFrostOrb(), !isDefect)); 
+	    	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ExtendedChannelAction(new DefectFrostOrb(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL)); 
 		
 		return SpireReturn.Return();
 	}

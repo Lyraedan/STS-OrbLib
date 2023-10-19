@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.combat.CleaveEffect;
 
+import orbLib.OrbLib;
 import orbLib.actions.ExtendedChannelAction;
 import orbLib.orbs.DefectDarkOrb;
 
@@ -20,12 +21,14 @@ import orbLib.orbs.DefectDarkOrb;
 public class DefectDoomAndGloomPatch {
 	@SpirePrefixPatch
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(DoomAndGloom __instance, AbstractPlayer p, AbstractMonster m) {
-		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
-		
+		if(!OrbLib.CONFIG_PATCH_DEFECT) {
+			return SpireReturn.Continue();
+		}
+				
 		AbstractDungeon.actionManager.addToBottom(new SFXAction("ATTACK_HEAVY"));
 		AbstractDungeon.actionManager.addToBottom(new VFXAction(p, new CleaveEffect(), 0.1F));
 		AbstractDungeon.actionManager.addToBottom(new DamageAllEnemiesAction(p, __instance.multiDamage, __instance.damageTypeForTurn, AbstractGameAction.AttackEffect.NONE));
-		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectDarkOrb(), !isDefect));
+		AbstractDungeon.actionManager.addToBottom(new ExtendedChannelAction(new DefectDarkOrb(), OrbLib.CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL));
 		
 		return SpireReturn.Return();
 	}

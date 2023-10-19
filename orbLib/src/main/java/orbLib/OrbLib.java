@@ -47,7 +47,11 @@ public class OrbLib implements PostInitializeSubscriber {
 
 	public static Properties theOrbLibSettings = new Properties();
 	public static final String EVOKE_ALL_ORBS_ON_FULL = "evokeAllOrbsOnFull";
+	public static final String PATCH_DEFECT = "patchDefect";
+	public static final String DEFECT_EVOKE_ALL_ORBS_ON_FULL = "defectEvokeAllOrbsOnFull";
 	public static boolean CONFIG_EVOKE_ALL_ORBS_ON_FULL = true;
+	public static boolean CONFIG_PATCH_DEFECT = true;
+	public static boolean CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL = true;
 
 	private static final String MODNAME = "OrbLib";
 	private static final String AUTHOR = "ItsLuke";
@@ -92,10 +96,14 @@ public class OrbLib implements PostInitializeSubscriber {
 		logger.info("Adding mod settings");
 
 		theOrbLibSettings.setProperty(EVOKE_ALL_ORBS_ON_FULL, "TRUE");
+		theOrbLibSettings.setProperty(PATCH_DEFECT, "FALSE");
+		theOrbLibSettings.setProperty(DEFECT_EVOKE_ALL_ORBS_ON_FULL, "FALSE");
 		try {
 			SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
 			config.load();
 			CONFIG_EVOKE_ALL_ORBS_ON_FULL = config.getBool(EVOKE_ALL_ORBS_ON_FULL);
+			CONFIG_PATCH_DEFECT = config.getBool(PATCH_DEFECT);
+			CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL = config.getBool(DEFECT_EVOKE_ALL_ORBS_ON_FULL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -158,7 +166,7 @@ public class OrbLib implements PostInitializeSubscriber {
 
 		ModPanel settingsPanel = new ModPanel();
 
-		ModLabeledToggleButton enableNormalsButton = new ModLabeledToggleButton(
+		ModLabeledToggleButton toggleEvokeAll = new ModLabeledToggleButton(
 				"Evoke all orbs when full? (Doesn't affect The Defect)", 350.0f, 700.0f, Settings.CREAM_COLOR,
 				FontHelper.charDescFont, CONFIG_EVOKE_ALL_ORBS_ON_FULL, settingsPanel, (label) -> {
 				}, (button) -> {
@@ -172,8 +180,40 @@ public class OrbLib implements PostInitializeSubscriber {
 						e.printStackTrace();
 					}
 				});
+		
+		ModLabeledToggleButton patchDefect = new ModLabeledToggleButton(
+				"Patch Defect", 350.0f, 730.0f, Settings.CREAM_COLOR,
+				FontHelper.charDescFont, CONFIG_PATCH_DEFECT, settingsPanel, (label) -> {
+				}, (button) -> {
 
-		settingsPanel.addUIElement(enableNormalsButton);
+					CONFIG_PATCH_DEFECT = button.enabled;
+					try {
+						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
+						config.setBool(PATCH_DEFECT, CONFIG_PATCH_DEFECT);
+						config.save();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+		
+		ModLabeledToggleButton defectEvokeAll = new ModLabeledToggleButton(
+				"Defect - Evoke all orbs when full. (Requires Patch Defect)", 350.0f, 760.0f, Settings.CREAM_COLOR,
+				FontHelper.charDescFont, CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL, settingsPanel, (label) -> {
+				}, (button) -> {
+
+					CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL = button.enabled;
+					try {
+						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
+						config.setBool(DEFECT_EVOKE_ALL_ORBS_ON_FULL, CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL);
+						config.save();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+
+		settingsPanel.addUIElement(toggleEvokeAll);
+		settingsPanel.addUIElement(patchDefect);
+		settingsPanel.addUIElement(defectEvokeAll);
 
 		BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 

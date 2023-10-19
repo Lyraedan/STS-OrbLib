@@ -67,14 +67,6 @@ public abstract class ExtendedOrb extends CustomOrb {
 		AbstractDungeon.actionManager.addToBottom(new ReduceOrbUseageAction(this));
 	}
 
-	@Override
-	public void render(SpriteBatch sb) {
-		// RenderOrbIndexes(sb);
-		if (this.loseEffectOverTime) {
-			drawEffectAmount(sb);
-		}
-	}
-
 	public void renderText(SpriteBatch sb, int passive, int evoke, float calculated) {
 		int orbIndex = AbstractDungeon.player.orbs.indexOf(this);
 		boolean isEmpty = (AbstractDungeon.player.orbs.get(orbIndex) instanceof EmptyOrbSlot);

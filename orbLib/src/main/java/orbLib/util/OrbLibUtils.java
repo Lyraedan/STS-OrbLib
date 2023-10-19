@@ -2,6 +2,7 @@ package orbLib.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -88,6 +89,60 @@ public class OrbLibUtils {
 				((AbstractOrb) player.orbs.get(i)).setSlot(i, player.maxOrbs);
 			}
 		}
+	}
+	
+	public static int removeOrbsOfType(Class<?> orbClass) {
+		List<AbstractOrb> orbsToRemove = new ArrayList<AbstractOrb>();
+		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
+			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
+			if(orb instanceof ExtendedOrb) {
+				if(orb.getClass().equals(orbClass)) {
+					orbsToRemove.add(orb);
+				}
+			}
+		}
+		
+		for(int i = 0; i < orbsToRemove.size(); i++) {
+			int index = GetOrbIndex(orbsToRemove.get(i));
+			removeOrbAt(index);
+		}
+		return orbsToRemove.size(); // Return the count incase a user wants to do something for every removed orb
+	}
+	
+	public static int evokeOrbsOfType(Class<?> orbClass) {
+		List<AbstractOrb> orbsToRemove = new ArrayList<AbstractOrb>();
+		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
+			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
+			if(orb instanceof ExtendedOrb) {
+				if(orb.getClass().equals(orbClass)) {
+					orbsToRemove.add(orb);
+				}
+			}
+		}
+		
+		for(int i = 0; i < orbsToRemove.size(); i++) {
+			int index = GetOrbIndex(orbsToRemove.get(i));
+			evokeOrbAt(index);
+		}
+		return orbsToRemove.size(); // Return the count incase a user wants to do something for every removed orb
+	}
+	
+	public static int evokeOrbsOfTypeDontRemove(Class<?> orbClass) {
+		List<AbstractOrb> orbsToRemove = new ArrayList<AbstractOrb>();
+		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
+			AbstractOrb orb = AbstractDungeon.player.orbs.get(i);
+			if(orb instanceof ExtendedOrb) {
+				if(orb.getClass().equals(orbClass)) {
+					orbsToRemove.add(orb);
+				}
+			}
+		}
+		
+		for(int i = 0; i < orbsToRemove.size(); i++) {
+			int index = GetOrbIndex(orbsToRemove.get(i));
+			evokeOrbAtDontRemove(index);
+		}
+		return orbsToRemove.size(); // Return the count incase a user wants to do something for every removed orb
 	}
 
 	public static void evokeOrbAtDontRemove(int orbIndex) {

@@ -192,7 +192,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 	}
 	
 	public void RemoveOrbListener(Class<?> orbClass) {
-		boolean orbStillExists = OrbLibUtils.OrbExists(orbClass.getSimpleName());
+		boolean orbStillExists = OrbLibUtils.OrbExists(orbClass);
 		if (!orbStillExists) {
 			OrbLib.orbListener.RemoveAllListeners(orbClass);
 		}

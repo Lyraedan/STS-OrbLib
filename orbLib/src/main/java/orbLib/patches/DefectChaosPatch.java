@@ -18,8 +18,8 @@ public class DefectChaosPatch {
 	public static SpireReturn<Void> ReplaceWithUpdatedOrb(Chaos __instance, AbstractPlayer p, AbstractMonster m) {
 		boolean isDefect = AbstractDungeon.player instanceof com.megacrit.cardcrawl.characters.Defect;
 		if (__instance.upgraded)
-		      AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ExtendedChannelAction(OrbLibUtils.getRandomOrb(true), !isDefect)); 
-			  AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ExtendedChannelAction(OrbLibUtils.getRandomOrb(true), !isDefect));
+		      AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ExtendedChannelAction(OrbLibUtils.getRandomDefectOrb(true), !isDefect)); 
+			  AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ExtendedChannelAction(OrbLibUtils.getRandomDefectOrb(true), !isDefect));
 		return SpireReturn.Return();
 	}
 }

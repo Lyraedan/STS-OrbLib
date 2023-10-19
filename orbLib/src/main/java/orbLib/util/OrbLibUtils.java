@@ -35,7 +35,7 @@ public class OrbLibUtils {
 	 * Get a random defect orb
 	 * </summery>
 	 * */
-	public static ExtendedOrb getRandomOrb(boolean useCardRng) {
+	public static ExtendedOrb getRandomDefectOrb(boolean useCardRng) {
 	    ArrayList<ExtendedOrb> orbs = new ArrayList<>();
 	    orbs.add(new DefectDarkOrb());
 	    orbs.add(new DefectFrostOrb());
@@ -113,11 +113,11 @@ public class OrbLibUtils {
 		return index;
 	}
 
-	public static boolean OrbExists(String orbName) {
+	public static boolean OrbExists(Class<?> orbClass) {
 		boolean result = false;
 		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
 			String name = AbstractDungeon.player.orbs.get(i).getClass().getSimpleName();
-			if (name.equals(orbName)) {
+			if (name.equals(orbClass.getSimpleName())) {
 				result = true;
 				break;
 			}

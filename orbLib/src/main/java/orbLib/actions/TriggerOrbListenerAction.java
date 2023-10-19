@@ -45,7 +45,6 @@ public class TriggerOrbListenerAction extends AbstractGameAction {
 				return;
 			}
 			if(action.orbToListenFor.equals(className) && action.type.equals(type)) {
-				System.out.println(className + " was " + type.toString() + "!");
 				action.action.Invoke(className);
 			}
 		}

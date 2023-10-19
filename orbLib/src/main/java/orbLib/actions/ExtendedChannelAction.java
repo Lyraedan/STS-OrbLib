@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
 
+import orbLib.OrbLib;
 import orbLib.orbs.ExtendedOrb;
 
 public class ExtendedChannelAction extends AbstractGameAction{
@@ -23,7 +24,7 @@ public class ExtendedChannelAction extends AbstractGameAction{
 	}
 	
 	public ExtendedChannelAction(ExtendedOrb orb) {
-		this(orb, true); // evoke all should really be bound to a config
+		this(orb, OrbLib.CONFIG_EVOKE_ALL_ORBS_ON_FULL);
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class ExtendedChannelAction extends AbstractGameAction{
 			}
         }
 		
-        isDone = true;
+        this.isDone = true;
 	}
 
 }

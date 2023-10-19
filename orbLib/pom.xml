@@ -1,11 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--Hello! You'll basically should only need to change these names and the steam path (just below)-->
-    <!--The author name(s) as they appear in MTS and any other comments are in your ModTheSpire.json-->
-    <artifactId>OrbLib</artifactId> <!--Keep a note of this one: this is the ID used in the "auto add cards" method-->
+    <artifactId>OrbLib</artifactId>
     <name>OrbLib</name>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -108,6 +106,6 @@
             </resource>
         </resources>
     </build>
-    <groupId>spellweaver</groupId>
-    <description>The spellweaver character</description>
+    <groupId>ItsLuke.OrbLib</groupId>
+    <description>A library for extending orb functionality</description>
 </project>

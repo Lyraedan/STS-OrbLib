@@ -51,14 +51,12 @@ public class RemoveOrbListenerAction extends AbstractGameAction {
 		    }
 
 		    if (action.orbToListenFor.equals(this.className) && action.type.equals(type)) {
-		        System.out.println("Removed nested listener: " + invoker);
 		        iterator.remove();
 		    }
 		}
 		
 		// There are no more listeners remove the root
 		if(orbListener.isEmpty()) {
-			System.out.println("No more nested listeners removing " + this.className + " from queue");
 			OrbLib.orbListener.queue.remove(this.className); // Remove the orb listener
 		}
 		

@@ -41,7 +41,6 @@ public class AddOrbListenerAction extends AbstractGameAction {
 			listener.action = action;
 			listener.type = type;
 			
-			System.out.println("Orb already has listener : Added new " + key);
 			queueMap.put(key, listener);
 			this.isDone = true;
 			return;
@@ -53,7 +52,6 @@ public class AddOrbListenerAction extends AbstractGameAction {
 		
 		HashMap<String, OrbListenerAction> map = new HashMap<String, OrbListenerAction>();
 		map.put(key, listener);
-		System.out.println("Adding first orb listener for " + key);
 		OrbLib.orbListener.queue.put(this.listenerClassName, map);
 		this.isDone = true;
 	}

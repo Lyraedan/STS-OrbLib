@@ -1,5 +1,7 @@
 package orbLib.orbs;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.mod.stslib.patches.HitboxRightClick;
@@ -15,6 +17,7 @@ import basemod.abstracts.CustomOrb;
 import orbLib.OrbLib;
 import orbLib.actions.ReduceOrbUseageAction;
 import orbLib.util.OrbLibUtils;
+import orbLib.util.OrbListenerAction.OrbListenerType;
 
 public abstract class ExtendedOrb extends CustomOrb {
 
@@ -39,6 +42,11 @@ public abstract class ExtendedOrb extends CustomOrb {
 		OrbLib.orbListener.OnOrbChannelled(getClass());
 	}
 
+	/**
+	 * <summary>
+	 * DO NOT OVERRIDE THIS FUNCTION, LEAVE THIS FUNCTION ALONE
+	 * </summary>
+	 * **/
 	public void clickUpdate() {
 		if (this instanceof ExtendedOrb) {
 			ExtendedOrb orb = (ExtendedOrb) this;
@@ -51,6 +59,11 @@ public abstract class ExtendedOrb extends CustomOrb {
 		}
 	}
 
+	/**
+	 * <summary>
+	 * DO NOT OVERRIDE THIS FUNCTION, LEAVE THIS FUNCTION ALONE
+	 * </summary>
+	 * **/
 	public boolean hovered() {
 		if (this instanceof ExtendedOrb) {
 			ExtendedOrb orb = (ExtendedOrb) this;
@@ -64,15 +77,21 @@ public abstract class ExtendedOrb extends CustomOrb {
 	public void onRemoved() { }
 	
 	public void onVictory(boolean playerIsDying) { }
-
-	public void onStartOfCombat() {
-		
-	}
 	
+	/**
+	 * <summary>
+	 * DO NOT OVERRIDE THIS FUNCTION
+	 * </summary>
+	 * **/
 	public void OnLoseEffectOverTime() {
 		AbstractDungeon.actionManager.addToBottom(new ReduceOrbUseageAction(this));
 	}
 
+	/**
+	 * <summary>
+	 * Render appropriately colored text based on a base value and a final calculated value
+	 * </summary>
+	 * **/
 	public void renderText(SpriteBatch sb, int passive, int evoke, float calculated) {
 		int orbIndex = AbstractDungeon.player.orbs.indexOf(this);
 		boolean isEmpty = (AbstractDungeon.player.orbs.get(orbIndex) instanceof EmptyOrbSlot);
@@ -109,18 +128,38 @@ public abstract class ExtendedOrb extends CustomOrb {
 				(this.cY + yOff) + this.bobEffect.y / 2.0F + NUM_Y_OFFSET, color, this.fontScale);
 	}
 
+	/**
+	 * <summary>
+	 * LEAVE THIS FUNCTION ALONE
+	 * </summary>
+	 * **/
 	public void drawEffectAmount(SpriteBatch sb) {
 		drawString(sb, Integer.toString(this.effectAmount), 0, -25, this.c);
 	}
 
+	/**
+	 * <summary>
+	 * DO NOT OVERRIDE THIS FUNCTION
+	 * </summary>
+	 * **/
 	public void reduceEffectiveness(int amount) {
 		this.effectAmount -= amount;
 	}
 
+	/**
+	 * <summary>
+	 * DO NOT OVERRIDE THIS FUNCTION
+	 * </summary>
+	 * **/
 	public void increaseEffectiveness(int amount) {
 		this.effectAmount += amount;
 	}
 
+	/**
+	 * <summary>
+	 * Calculate damage based on if the player has strength is weak and if the target has vulnerable or has flight
+	 * </summary>
+	 * **/
 	public float calculateDamage(int amount) {
 		boolean isWeakened = AbstractDungeon.player.hasPower("Weakened");
 		boolean targetIsVulnerable = this.orbTarget != null ? this.orbTarget.hasPower("Vulnerable") : false;
@@ -147,6 +186,11 @@ public abstract class ExtendedOrb extends CustomOrb {
 		return result;
 	}
 
+	/**
+	 * <summary>
+	 * Calculate block based on frail and deterity.
+	 * </summary>
+	 * **/
 	public float calculateBlock(int amount) {
 		boolean hasDexterity = AbstractDungeon.player.hasPower("Dexterity");
 		boolean isFrail = AbstractDungeon.player.hasPower("Frail");
@@ -179,21 +223,93 @@ public abstract class ExtendedOrb extends CustomOrb {
 
 	// HELPER FUNCTIONS
 
+	/**
+	 * <summary>
+	 * Remove this orb. Not evoked.
+	 * </summary>
+	 * **/
 	public void remove() {
 		int orbIndex = OrbLibUtils.GetOrbIndex(this);
 		OrbLibUtils.removeOrbAt(orbIndex);
 	}
 
+	/**
+	 * <summary>
+	 * Evoke this orb
+	 * </summary>
+	 * **/
 	public void evoke() {
 		int orbIndex = OrbLibUtils.GetOrbIndex(this);
 		OrbLibUtils.evokeOrbAt(orbIndex);
 	}
 	
+	/**
+	 * <summary>
+	 * Remove all the listen events for the specified orb
+	 * </summary>
+	 * **/
 	public void RemoveOrbListener(Class<?> orbClass) {
 		boolean orbStillExists = OrbLibUtils.OrbExists(orbClass);
 		if (!orbStillExists) {
 			OrbLib.orbListener.RemoveAllListeners(orbClass);
 		}
+	}
+	
+	/**
+	 * <summary>
+	 * Remove every single listener from this orb type
+	 * </summary>
+	 * **/
+	public void RemoveAllOrbListeners() {
+		OrbLib.orbListener.RemoveAllListeners(getClass());
+	}
+	
+	/**
+	 * <summary>
+	 * Removed all listeners of a specific type from the current orb
+	 * </summary>
+	 * **/
+	public void RemoveAllOrbListenersOfType(OrbListenerType type) {
+		OrbLib.orbListener.RemoveAllListenersOfType(getClass(), type);
+	}
+	
+	/**
+	 * <summary>
+	 * Orb is first channelled orb.
+	 * </summary>
+	 * **/
+	public boolean isFirst() {
+		return AbstractDungeon.player.orbs.get(0).equals(this);
+	}
+	
+	/**
+	 * <summary>
+	 * Orb is first channelled orb of its type.
+	 * </summary>
+	 * **/
+	public boolean isFirstOfCurrentType() {
+		ArrayList<AbstractOrb> orbs = OrbLibUtils.GetOrbsOfType(getClass());
+		return orbs.get(0).equals(this);
+	}
+	
+	/**
+	 * <summary>
+	 * Orb is the last channelled orb.
+	 * </summary>
+	 * **/
+	public boolean isLast() {
+		ArrayList<AbstractOrb> orbs = OrbLibUtils.GetOrbsNotEmpty();
+		return orbs.size() == 1;
+	}
+	
+	/**
+	 * <summary>
+	 * Orb is last channelled orb of its type.
+	 * </summary>
+	 * **/
+	public boolean isLastOfCurrentType() {
+		ArrayList<AbstractOrb> orbs = OrbLibUtils.GetOrbsOfType(getClass());
+		return orbs.size() == 1;
 	}
 
 }

@@ -20,6 +20,11 @@ import orbLib.orbs.ExtendedOrb;
 
 public class OrbLibUtils {
 
+	/**
+	 * <summary>
+	 * Increase your current orb count bypassing the 10 orb cap.
+	 * </summary>
+	 * **/
 	public static void increaseMaxOrbSlotsCapless(int amount, boolean playSfx) {
 		if (playSfx)
 			CardCrawlGame.sound.play("ORB_SLOT_GAIN", 0.1F);
@@ -47,6 +52,11 @@ public class OrbLibUtils {
 	    return orbs.get(MathUtils.random(orbs.size() - 1));
 	  }
 	
+	/**
+	 * <summary>
+	 * Remove the orb at the specified index. Does not evoke.
+	 * </summary>
+	 * **/
 	public static void removeOrbAt(int orbIndex) {
 		AbstractPlayer player = AbstractDungeon.player;
 		AbstractOrb orb = player.orbs.get(orbIndex);
@@ -71,6 +81,11 @@ public class OrbLibUtils {
 		}
 	}
 
+	/**
+	 * <summary>
+	 * Evoke the channelled orb at the specified index.
+	 * </summary>
+	 * **/
 	public static void evokeOrbAt(int orbIndex) {
 		AbstractPlayer player = AbstractDungeon.player;
 		AbstractOrb orb = player.orbs.get(orbIndex);
@@ -91,6 +106,12 @@ public class OrbLibUtils {
 		}
 	}
 	
+	/**
+	 * <summary>
+	 * Remove all channelled orbs of a specific type. Does not evoke.
+	 * Return: Total number of removed orbs.
+	 * </summary>
+	 * **/
 	public static int removeOrbsOfType(Class<?> orbClass) {
 		List<AbstractOrb> orbs = GetOrbsOfType(orbClass);
 		
@@ -101,6 +122,12 @@ public class OrbLibUtils {
 		return orbs.size(); // Return the count incase a user wants to do something for every removed orb
 	}
 	
+	/**
+	 * <summary>
+	 * Evoke all channelled orbs of a specific type.
+	 * Return: Total number of evoked orbs.
+	 * </summary>
+	 * **/
 	public static int evokeOrbsOfType(Class<?> orbClass) {
 		List<AbstractOrb> orbs = GetOrbsOfType(orbClass);
 		
@@ -111,6 +138,7 @@ public class OrbLibUtils {
 		return orbs.size(); // Return the count incase a user wants to do something for every removed orb
 	}
 	
+	/* Doesn't work properly. Removed for now.
 	public static int evokeOrbsOfTypeDontRemove(Class<?> orbClass) {
 		List<AbstractOrb> orbs = GetOrbsOfType(orbClass);
 		
@@ -128,8 +156,13 @@ public class OrbLibUtils {
 		if (!player.orbs.isEmpty() && !(orb instanceof EmptyOrbSlot)) {
 			orb.onEvoke();
 		}
-	}
+	}*/
 
+	/**
+	 * <summary>
+	 * Get the orb slot index of the specified orb.
+	 * </summary>
+	 * **/
 	public static int GetOrbIndex(AbstractOrb orb) {
 		int index = 0; // First
 		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
@@ -144,6 +177,11 @@ public class OrbLibUtils {
 		return index;
 	}
 
+	/**
+	 * <summary>
+	 * Does an orb of this specific type exist?
+	 * </summary>
+	 * **/
 	public static boolean OrbExists(Class<?> orbClass) {
 		boolean result = false;
 		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
@@ -156,6 +194,11 @@ public class OrbLibUtils {
 		return result;
 	}
 	
+	/**
+	 * <summary>
+	 * Returns a list of all your channelled orbs of the specified type.
+	 * </summary>
+	 * **/
 	public static ArrayList<AbstractOrb> GetOrbsOfType(Class<?> orbClass) {
 		ArrayList<AbstractOrb> orbs = new ArrayList<AbstractOrb>();
 		for(int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {
@@ -169,6 +212,11 @@ public class OrbLibUtils {
 		return orbs;
 	}
 
+	/**
+	 * <summary>
+	 * Returns a list of all your orbs that are channelled.
+	 * </summary>
+	 * **/
 	public static ArrayList<AbstractOrb> GetOrbsNotEmpty() {
 		ArrayList<AbstractOrb> orbs = new ArrayList<AbstractOrb>();
 		for (int i = 0; i < AbstractDungeon.player.orbs.size(); i++) {

@@ -10,6 +10,6 @@ import orbLib.OrbLib;
 public class OrbListenerEndOfCombatPatch {
 	@SpirePostfixPatch
 	public static void Insert(AbstractPlayer __instance) {
-		OrbLib.orbListener.ForceClearQueue();
+		OrbLib.orbListener.queue.clear();
 	}
 }

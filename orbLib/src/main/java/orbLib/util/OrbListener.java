@@ -1,10 +1,12 @@
 package orbLib.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import orbLib.actions.AddOrbListenerAction;
+import orbLib.actions.AddOrbListenerMultipleAction;
 import orbLib.actions.BulkRemoveAllAction;
 import orbLib.actions.BulkRemoveAllOfListenerTypeAction;
 import orbLib.actions.RemoveOrbListenerAction;
@@ -21,12 +23,22 @@ public class OrbListener {
 
 	/**
 	 * <summary>
-	 * Orb is first channelled orb.
+	 * Make the listener listen out for events from the listenFor orb
 	 * </summary>
 	 * **/
 	public void AddListener(Class<?> listener, Class<?> listenFor, OrbListenerType listenerType, OrbAction action) {
 		AbstractDungeon.actionManager.addToTop(
 				new AddOrbListenerAction(listener.getSimpleName(), listenFor.getSimpleName(), listenerType, action));
+	}
+	
+	/**
+	 * <summary>
+	 * Make the listener listen out for events from the multiple orbs
+	 * </summary>
+	 * **/
+	public void AddListenerMultiple(Class<?> listener, ArrayList<Class<?>> listenForList, OrbListenerType listenerType, OrbAction action) {
+		AbstractDungeon.actionManager.addToTop(
+				new AddOrbListenerMultipleAction(listener.getSimpleName(), listenForList, listenerType, action));
 	}
 
 	/**

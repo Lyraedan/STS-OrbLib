@@ -245,14 +245,11 @@ public abstract class ExtendedOrb extends CustomOrb {
 	
 	/**
 	 * <summary>
-	 * Remove all the listen events for the specified orb
+	 * Remove a listener of a type
 	 * </summary>
 	 * **/
-	public void RemoveOrbListener(Class<?> orbClass) {
-		boolean orbStillExists = OrbLibUtils.OrbExists(orbClass);
-		if (!orbStillExists) {
-			OrbLib.orbListener.RemoveAllListeners(orbClass);
-		}
+	public void RemoveOrbListener(Class<?> orbClass, OrbListenerType type) {
+		OrbLib.orbListener.RemoveListener(orbClass, type);
 	}
 	
 	/**
@@ -261,7 +258,10 @@ public abstract class ExtendedOrb extends CustomOrb {
 	 * </summary>
 	 * **/
 	public void RemoveAllOrbListeners() {
-		OrbLib.orbListener.RemoveAllListeners(getClass());
+		boolean orbStillExists = OrbLibUtils.OrbExists(getClass());
+		if (!orbStillExists) {
+			OrbLib.orbListener.RemoveAllListeners(getClass());
+		}
 	}
 	
 	/**

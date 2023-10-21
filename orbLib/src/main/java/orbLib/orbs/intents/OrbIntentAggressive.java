@@ -1,12 +1,10 @@
 package orbLib.orbs.intents;
 
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-
-import orbLib.patches.OrbIntentsPatch;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 
 public class OrbIntentAggressive extends OrbIntent {
 
-	public OrbIntentAggressive(AbstractMonster target, int amount) {
+	public OrbIntentAggressive(AbstractCreature target, int amount) {
 		super(target, amount, Intents.AGGRESSIVE);
 	}
 
@@ -32,7 +30,7 @@ public class OrbIntentAggressive extends OrbIntent {
 
 	@Override
 	public OrbIntent makeCopy() {
-		return new OrbIntentAggressive((AbstractMonster) this.target, this.amount);
+		return new OrbIntentAggressive(this.target, this.amount);
 	}
 
 }

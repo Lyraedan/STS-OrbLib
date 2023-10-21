@@ -1,18 +1,18 @@
 package orbLib.actions;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import orbLib.orbs.intents.OrbIntent;
 import orbLib.patches.OrbIntentsPatch;
 
 public class AddOrbIntentAction extends AbstractGameAction {
 
-	public AbstractMonster monster;
+	public AbstractCreature monster;
 	public OrbIntent orbIntent;
 	
-	public AddOrbIntentAction(AbstractMonster monster, OrbIntent intent) {
+	public AddOrbIntentAction(AbstractCreature monster, OrbIntent intent) {
 		amount = 1;
 		actionType = ActionType.SPECIAL;
 		duration = Settings.ACTION_DUR_FAST;

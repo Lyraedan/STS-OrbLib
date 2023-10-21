@@ -1,4 +1,4 @@
-package orbLib.patches;
+package orbLib.patches.defect;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;

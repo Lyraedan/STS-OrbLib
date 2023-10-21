@@ -67,10 +67,12 @@ public abstract class OrbIntent {
 			float hbYOffset = HB_Y_OFFSET_DIST * 5.0F;
 			float blockOffset = 0;
 			
-			x = AbstractDungeon.player.hb.cX - AbstractDungeon.player.hb.width / 2.0F;
-		    y = AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.0F + hbYOffset;
+			//x = AbstractDungeon.player.hb.cX - AbstractDungeon.player.hb.width / 2.0F;
+		    //y = AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.0F + hbYOffset;
 			
-			sb.draw(ImageMaster.BLOCK_ICON, x + BLOCK_ICON_X - 32.0F, y + BLOCK_ICON_Y - 32.0F + blockOffset, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+		    System.out.println("Drawing player orb");
+			sb.draw(this.img, x + BLOCK_ICON_X - 32.0F, y + BLOCK_ICON_Y - 32.0F + blockOffset, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+			//sb.draw(this.img, x, y);
 		}
 	}
 

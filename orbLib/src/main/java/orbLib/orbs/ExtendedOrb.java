@@ -10,24 +10,27 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.orbs.AbstractOrb;
 import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
 
 import basemod.abstracts.CustomOrb;
 import orbLib.OrbLib;
+import orbLib.actions.AddOrbIntentAction;
 import orbLib.actions.ReduceOrbUseageAction;
+import orbLib.orbs.intents.OrbIntent;
 import orbLib.util.OrbLibUtils;
 import orbLib.util.OrbListenerAction.OrbListenerType;
 
 public abstract class ExtendedOrb extends CustomOrb {
-
+	
 	public int effectAmount = 0;
 	public boolean loseEffectOverTime = false;
 
 	public AbstractCreature orbTarget;
 
 	public String className;
-
+		
 	public ExtendedOrb(String ID, String NAME, int basePassiveAmount, int baseEvokeAmount, String passiveDescription,
 			String evokeDescription) {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription);
@@ -127,7 +130,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 		FontHelper.renderFontCentered(sb, FontHelper.cardEnergyFont_L, string, (this.cX + xOff) + NUM_X_OFFSET,
 				(this.cY + yOff) + this.bobEffect.y / 2.0F + NUM_Y_OFFSET, color, this.fontScale);
 	}
-
+	
 	/**
 	 * <summary>
 	 * LEAVE THIS FUNCTION ALONE
@@ -136,7 +139,7 @@ public abstract class ExtendedOrb extends CustomOrb {
 	public void drawEffectAmount(SpriteBatch sb) {
 		drawString(sb, Integer.toString(this.effectAmount), 0, -25, this.c);
 	}
-
+	
 	/**
 	 * <summary>
 	 * DO NOT OVERRIDE THIS FUNCTION
@@ -310,6 +313,28 @@ public abstract class ExtendedOrb extends CustomOrb {
 	public boolean isLastOfCurrentType() {
 		ArrayList<AbstractOrb> orbs = OrbLibUtils.GetOrbsOfType(getClass());
 		return orbs.size() == 1;
+	}
+	
+	/*
+	 * Apply the orbs intent to the target enemy
+	 * **/
+	public void AddIntent(AbstractMonster target, OrbIntent orbIntent) {
+		AbstractDungeon.actionManager.addToBottom(new AddOrbIntentAction(target, orbIntent));
+		/*
+		System.out.println("Tring to add/stack intent " + orbIntent.intent.toString());
+		Optional<OrbIntent> found = OrbIntentsPatch.orbIntents.get(target).stream().filter(o -> o.intent.toString().equals(orbIntent.intent.toString())).findAny();
+		System.out.println("Intent was found " + found.isPresent());
+		
+		if(found.isPresent()) {
+			OrbIntent currentIntent = found.get(); //OrbIntentsPatch.orbIntents.get(target).get(i);
+			currentIntent.amount += orbIntent.amount;
+			currentIntent.ReloadImage(); // Reload the image
+			System.out.println("Stacking intent " + orbIntent.intent.toString());
+		} else {
+			OrbIntentsPatch.orbIntents.get(target).add(orbIntent);
+			System.out.println("Added new intent " + orbIntent.intent.toString());
+		}*/
+		
 	}
 
 }

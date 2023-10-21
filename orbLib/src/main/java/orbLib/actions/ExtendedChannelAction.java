@@ -5,10 +5,12 @@ import com.megacrit.cardcrawl.actions.defect.ChannelAction;
 import com.megacrit.cardcrawl.actions.defect.EvokeAllOrbsAction;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.orbs.EmptyOrbSlot;
 
 import orbLib.OrbLib;
 import orbLib.orbs.ExtendedOrb;
+import orbLib.orbs.intents.OrbIntentAggressive;
 
 public class ExtendedChannelAction extends AbstractGameAction{
 
@@ -35,7 +37,7 @@ public class ExtendedChannelAction extends AbstractGameAction{
 		}
 		
         AbstractDungeon.actionManager.addToBottom(new ChannelAction(this.orb));
-        
+
         if(evokeAllWhenFull) {
 	        int slots = 0;
 	        for(int i = 0; i < AbstractDungeon.player.maxOrbs; i++) {

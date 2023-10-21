@@ -7,8 +7,7 @@ import orbLib.patches.OrbIntentsPatch;
 public class OrbIntentAggressive extends OrbIntent {
 
 	public OrbIntentAggressive(AbstractMonster target, int amount) {
-		super(target, amount);
-		this.intent = Intents.AGGRESSIVE;
+		super(target, amount, Intents.AGGRESSIVE);
 	}
 
 	@Override
@@ -29,6 +28,11 @@ public class OrbIntentAggressive extends OrbIntent {
 			return "attack_intent_7.png";
 		}
 		return "attack_intent_1.png";
+	}
+
+	@Override
+	public OrbIntent makeCopy() {
+		return new OrbIntentAggressive((AbstractMonster) this.target, this.amount);
 	}
 
 }

@@ -8,11 +8,11 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import orbLib.orbs.intents.OrbIntent;
 
-public @SpirePatch(
+@SpirePatch(
         clz=AbstractMonster.class,
         method=SpirePatch.CLASS
 )
-class OrbIntentsPatch
+public class OrbIntentsPatch
 {
     public static SpireField<ArrayList<OrbIntent>> orbIntents = new SpireField<ArrayList<OrbIntent>>(() -> new ArrayList<OrbIntent>());
 }

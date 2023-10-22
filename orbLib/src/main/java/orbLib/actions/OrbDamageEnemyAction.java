@@ -24,7 +24,7 @@ public class OrbDamageEnemyAction extends AbstractGameAction {
 	  
 	  public void update() {
 		  if(this.target == null || target.isDeadOrEscaped()) {
-			this.target = (AbstractCreature)AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+			this.target = orb.getRandomTarget();
 			this.orb.orbTarget = this.target;
 		  }
 		  if (this.target != null) {

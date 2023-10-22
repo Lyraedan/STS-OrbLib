@@ -39,6 +39,9 @@ public abstract class ExtendedOrb extends CustomOrb {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription);
 		className = getClass().getSimpleName();
 		OrbLib.orbListener.OnOrbChannelled(getClass());
+		if(this.orbTarget == null) {
+			this.orbTarget = getRandomTarget();
+		}
 	}
 
 	public ExtendedOrb(String ID, String NAME, int basePassiveAmount, int baseEvokeAmount, String passiveDescription,
@@ -46,6 +49,9 @@ public abstract class ExtendedOrb extends CustomOrb {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription, imgPath);
 		className = getClass().getSimpleName();
 		OrbLib.orbListener.OnOrbChannelled(getClass());
+		if(this.orbTarget == null) {
+			this.orbTarget = getRandomTarget();
+		}
 	}
 
 	/**
@@ -314,6 +320,10 @@ public abstract class ExtendedOrb extends CustomOrb {
 	 */
 	public void removeIntentAllEnemies(OrbIntent orbIntent) {
 		AbstractDungeon.actionManager.addToBottom(new RemoveOrbIntentAllEnemies(orbIntent));
+	}
+	
+	public AbstractMonster getRandomTarget() {
+		return AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
 	}
 
 }

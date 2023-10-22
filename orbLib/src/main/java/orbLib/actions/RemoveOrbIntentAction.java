@@ -21,6 +21,10 @@ public class RemoveOrbIntentAction extends AbstractGameAction {
 	}
 
 	public void update() {
+		if(creature == null) {
+			this.isDone = true;
+			return;
+		}
 		for(OrbIntent intent : OrbIntentsPatch.orbIntents.get(creature)) {
 			if(intent.intent.equals(orbIntent.intent)) {
 				intent.amount -= orbIntent.amount;

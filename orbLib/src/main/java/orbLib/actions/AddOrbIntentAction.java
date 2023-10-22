@@ -9,24 +9,28 @@ import orbLib.patches.OrbIntentsPatch;
 
 public class AddOrbIntentAction extends AbstractGameAction {
 
-	public AbstractCreature monster;
+	public AbstractCreature creature;
 	public OrbIntent orbIntent;
 	
 	public AddOrbIntentAction(AbstractCreature monster, OrbIntent intent) {
 		amount = 1;
 		actionType = ActionType.SPECIAL;
 		duration = Settings.ACTION_DUR_FAST;
-		this.monster = monster;
+		this.creature = monster;
 		this.orbIntent = intent;
 	}
 
 	public void update() {
+		if(creature == null) {
+			this.isDone = true;
+			return;
+		}
+		
 		boolean stacked = false;
-		for(OrbIntent intent : OrbIntentsPatch.orbIntents.get(monster)) {
+		for(OrbIntent intent : OrbIntentsPatch.orbIntents.get(creature)) {
 			if(intent.intent.equals(orbIntent.intent)) {
 				intent.amount += orbIntent.amount;
 				intent.ReloadImage(); // Reload the image
-				System.out.println("Stacking intent " + orbIntent.intent.toString());
 				stacked = true;
 				break;
 			}
@@ -35,8 +39,7 @@ public class AddOrbIntentAction extends AbstractGameAction {
 			this.isDone = true;
 			return;
 		}
-		OrbIntentsPatch.orbIntents.get(monster).add(orbIntent);
-		System.out.println("Added new intent " + orbIntent.intent.toString());
+		OrbIntentsPatch.orbIntents.get(creature).add(orbIntent);
 		this.isDone = true;
 	}
 }

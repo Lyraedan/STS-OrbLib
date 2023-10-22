@@ -44,7 +44,7 @@ public abstract class OrbIntent {
 		this.img = TextureLoader.getTexture(makeOrbIntentPath(GetIntentResource()));
 	}
 
-	public void render(SpriteBatch sb, float xOff, float yOff) {
+	public void render(SpriteBatch sb, float x, float y) {
 		if(!OrbLib.CONFIG_DISPLAY_ORB_INTENTS) {
 			return;
 		}
@@ -55,34 +55,18 @@ public abstract class OrbIntent {
 		
 		bobEffect.update();
 		sb.setColor(tintColor);
-		float x = target == null ? xOff : target.drawX + xOff;
-		float y = target == null ? yOff : (target.drawY + yOff) + (bobEffect.y / 2.0f);
-		float angle = 0f;
-		if (target instanceof AbstractMonster) {
-			x = (((AbstractMonster) target).intentHb.cX + xOff) - 64.0f;
-			y = (((AbstractMonster) target).intentHb.cY + yOff) - 72.0f + (bobEffect.y / 2.0f);
-			sb.draw(this.img, x, y, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale * 1.2F, Settings.scale * 1.2F, angle,
-					0, 0, 128, 128, false, false);
-			FontHelper.renderFontCentered(sb, FontHelper.cardEnergyFont_L, Integer.toString(amount), x + 15, y + 88.0f,
-					textColor, this.fontScale);
-		} else if (target instanceof AbstractPlayer) {
-			float BLOCK_ICON_X = -14.0F * Settings.scale;
-			float BLOCK_ICON_Y = -80.0F * Settings.scale;
-			float HB_Y_OFFSET_DIST = 12.0F * Settings.scale;
-			float hbYOffset = HB_Y_OFFSET_DIST * 5.0F;
-			
-			x = AbstractDungeon.player.hb.cX - AbstractDungeon.player.hb.width / 2.0F;
-		    y = AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.0F + hbYOffset + (bobEffect.y / 2f);
-			
-		    x += xOff;
-		    y += yOff;
-		    
-			sb.draw(this.img, x + BLOCK_ICON_X, y + BLOCK_ICON_Y, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-			FontHelper.renderFontCentered(sb, FontHelper.cardEnergyFont_L, Integer.toString(amount), x, y - 64.0f,
-					textColor, this.fontScale);
-		}
+
+		float scale = target instanceof AbstractMonster ? Settings.scale * 1.2f : Settings.scale;
+		sb.draw(this.img, x - 20f, (y + (bobEffect.y / 2.0f)) - 20f, 32.0F, 32.0F, 64.0F, 64.0F, scale, scale, 0.0F, 0, 0, 64, 64, false, false);
+		FontHelper.renderFontCentered(sb, FontHelper.cardEnergyFont_L, Integer.toString(amount), x, y + (bobEffect.y / 2.0f),
+				textColor, this.fontScale);		
 	}
 
+	public void render(SpriteBatch sb, float x, float y, float xOff, float yOff) {
+		sb.draw(this.img, (x + xOff) + -46.0F * Settings.scale - 32.0F, (y * yOff) + -14.0F * Settings.scale - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+        FontHelper.renderFontCentered(sb, FontHelper.blockInfoFont, Integer.toString(amount), x + -46.0F * Settings.scale, y - 16.0F * Settings.scale, new Color(0.9F, 0.9F, 0.9F, 0.9F), 1.0F);
+	}
+	
 	public abstract String GetIntentResource();
 
 	public boolean amountBetweenRanges(int min, int max) {

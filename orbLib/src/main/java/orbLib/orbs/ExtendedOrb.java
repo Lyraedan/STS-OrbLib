@@ -39,9 +39,6 @@ public abstract class ExtendedOrb extends CustomOrb {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription);
 		className = getClass().getSimpleName();
 		OrbLib.orbListener.OnOrbChannelled(getClass());
-		if(this.orbTarget == null) {
-			this.orbTarget = getRandomTarget();
-		}
 	}
 
 	public ExtendedOrb(String ID, String NAME, int basePassiveAmount, int baseEvokeAmount, String passiveDescription,
@@ -49,9 +46,6 @@ public abstract class ExtendedOrb extends CustomOrb {
 		super(ID, NAME, basePassiveAmount, baseEvokeAmount, passiveDescription, evokeDescription, imgPath);
 		className = getClass().getSimpleName();
 		OrbLib.orbListener.OnOrbChannelled(getClass());
-		if(this.orbTarget == null) {
-			this.orbTarget = getRandomTarget();
-		}
 	}
 
 	/**

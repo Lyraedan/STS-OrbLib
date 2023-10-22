@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.vfx.BobEffect;
 
+import orbLib.OrbLib;
 import orbLib.util.TextureLoader;
 
 public abstract class OrbIntent {
@@ -44,6 +45,14 @@ public abstract class OrbIntent {
 	}
 
 	public void render(SpriteBatch sb, float xOff, float yOff) {
+		if(!OrbLib.CONFIG_DISPLAY_ORB_INTENTS) {
+			return;
+		}
+		
+		if(AbstractDungeon.player.isDead) {
+			return;
+		}
+		
 		bobEffect.update();
 		sb.setColor(tintColor);
 		float x = target == null ? xOff : target.drawX + xOff;
@@ -65,6 +74,9 @@ public abstract class OrbIntent {
 			x = AbstractDungeon.player.hb.cX - AbstractDungeon.player.hb.width / 2.0F;
 		    y = AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.0F + hbYOffset + (bobEffect.y / 2f);
 			
+		    x += xOff;
+		    y += yOff;
+		    
 			sb.draw(this.img, x + BLOCK_ICON_X, y + BLOCK_ICON_Y, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
 			FontHelper.renderFontCentered(sb, FontHelper.cardEnergyFont_L, Integer.toString(amount), x, y - 64.0f,
 					textColor, this.fontScale);

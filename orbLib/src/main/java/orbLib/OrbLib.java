@@ -31,13 +31,15 @@ public class OrbLib implements PostInitializeSubscriber {
 	public static final Logger logger = LogManager.getLogger(OrbLib.class.getName());
 	private static String modID;
 
-	public static Properties theOrbLibSettings = new Properties();
+	public static Properties orbLibSettings = new Properties();
 	public static final String EVOKE_ALL_ORBS_ON_FULL = "evokeAllOrbsOnFull";
 	public static final String PATCH_DEFECT = "patchDefect";
 	public static final String DEFECT_EVOKE_ALL_ORBS_ON_FULL = "defectEvokeAllOrbsOnFull";
+	public static final String DISPLAY_ORB_INTENTS = "displayOrbIntents";
 	public static boolean CONFIG_EVOKE_ALL_ORBS_ON_FULL = true;
 	public static boolean CONFIG_PATCH_DEFECT = true;
 	public static boolean CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL = true;
+	public static boolean CONFIG_DISPLAY_ORB_INTENTS = true;
 
 	private static final String MODNAME = "OrbLib";
 	private static final String AUTHOR = "ItsLuke";
@@ -85,15 +87,17 @@ public class OrbLib implements PostInitializeSubscriber {
 
 		logger.info("Adding mod settings");
 
-		theOrbLibSettings.setProperty(EVOKE_ALL_ORBS_ON_FULL, "TRUE");
-		theOrbLibSettings.setProperty(PATCH_DEFECT, "FALSE");
-		theOrbLibSettings.setProperty(DEFECT_EVOKE_ALL_ORBS_ON_FULL, "FALSE");
+		orbLibSettings.setProperty(EVOKE_ALL_ORBS_ON_FULL, "TRUE");
+		orbLibSettings.setProperty(PATCH_DEFECT, "FALSE");
+		orbLibSettings.setProperty(DEFECT_EVOKE_ALL_ORBS_ON_FULL, "FALSE");
+		orbLibSettings.setProperty(DISPLAY_ORB_INTENTS, "TRUE");
 		try {
-			SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
+			SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", orbLibSettings);
 			config.load();
 			CONFIG_EVOKE_ALL_ORBS_ON_FULL = config.getBool(EVOKE_ALL_ORBS_ON_FULL);
 			CONFIG_PATCH_DEFECT = config.getBool(PATCH_DEFECT);
 			CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL = config.getBool(DEFECT_EVOKE_ALL_ORBS_ON_FULL);
+			CONFIG_DISPLAY_ORB_INTENTS = config.getBool(DISPLAY_ORB_INTENTS);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,25 +126,6 @@ public class OrbLib implements PostInitializeSubscriber {
 		return modID;
 	}
 
-	private static void pathCheck() {
-		Gson coolG = new Gson();
-		// String IDjson =
-		// Gdx.files.internal("IDCheckStringsDONT-EDIT-AT-ALL.json").readString(String.valueOf(StandardCharsets.UTF_8));
-		InputStream in = OrbLib.class.getResourceAsStream("/IDCheckStringsDONT-EDIT-AT-ALL.json");
-		IDCheckDontTouchPls EXCEPTION_STRINGS = coolG.fromJson(new InputStreamReader(in, StandardCharsets.UTF_8),
-				IDCheckDontTouchPls.class);
-		String packageName = OrbLib.class.getPackage().getName();
-		FileHandle resourcePathExists = Gdx.files.internal(getModID() + "Resources");
-		if (!modID.equals(EXCEPTION_STRINGS.DEVID)) {
-			if (!packageName.equals(getModID())) {
-				throw new RuntimeException(EXCEPTION_STRINGS.PACKAGE_EXCEPTION + getModID());
-			}
-			if (!resourcePathExists.exists()) {
-				throw new RuntimeException(EXCEPTION_STRINGS.RESOURCE_FOLDER_EXCEPTION + getModID() + "Resources");
-			}
-		}
-	}
-
 	public static void initialize() {
 		logger.info("========================= Initializing OrbLib. =========================");
 		OrbLib orbLib = new OrbLib();
@@ -162,7 +147,7 @@ public class OrbLib implements PostInitializeSubscriber {
 
 					CONFIG_EVOKE_ALL_ORBS_ON_FULL = button.enabled;
 					try {
-						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
+						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", orbLibSettings);
 						config.setBool(EVOKE_ALL_ORBS_ON_FULL, CONFIG_EVOKE_ALL_ORBS_ON_FULL);
 						config.save();
 					} catch (Exception e) {
@@ -177,7 +162,7 @@ public class OrbLib implements PostInitializeSubscriber {
 
 					CONFIG_PATCH_DEFECT = button.enabled;
 					try {
-						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
+						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", orbLibSettings);
 						config.setBool(PATCH_DEFECT, CONFIG_PATCH_DEFECT);
 						config.save();
 					} catch (Exception e) {
@@ -192,14 +177,30 @@ public class OrbLib implements PostInitializeSubscriber {
 
 					CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL = button.enabled;
 					try {
-						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", theOrbLibSettings);
+						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", orbLibSettings);
 						config.setBool(DEFECT_EVOKE_ALL_ORBS_ON_FULL, CONFIG_DEFECT_EVOKE_ALL_ORBS_ON_FULL);
 						config.save();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				});
+		
+		ModLabeledToggleButton displayOrbIntents = new ModLabeledToggleButton(
+				"Display orb intents.", 350.0f, 670.0f, Settings.CREAM_COLOR,
+				FontHelper.charDescFont, CONFIG_DISPLAY_ORB_INTENTS, settingsPanel, (label) -> {
+				}, (button) -> {
 
+					CONFIG_DISPLAY_ORB_INTENTS = button.enabled;
+					try {
+						SpireConfig config = new SpireConfig("OrbLib", "OrbLibConfig", orbLibSettings);
+						config.setBool(DISPLAY_ORB_INTENTS, CONFIG_DISPLAY_ORB_INTENTS);
+						config.save();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+
+		settingsPanel.addUIElement(displayOrbIntents);
 		settingsPanel.addUIElement(toggleEvokeAll);
 		settingsPanel.addUIElement(patchDefect);
 		settingsPanel.addUIElement(defectEvokeAll);

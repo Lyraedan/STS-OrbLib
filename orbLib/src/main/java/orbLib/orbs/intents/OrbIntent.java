@@ -19,8 +19,7 @@ import orbLib.util.TextureLoader;
 public abstract class OrbIntent {
 
 	public enum Intents {
-		AGGRESSIVE, DEFENSIVE, STRATEGIC_DEBUF, STRATEGIC_BUFF, AGGRESSIVE_DEBUFF, AGGRESSIVE_DEFENSIVE,
-		AGGRESSIVE_BUFF, DEFENSIVE_BUFF, DEFENSIVE_DEBUFF, COWARDLY, SLEEPING, STUNNED, UNKNOWN
+		AGGRESSIVE, DEFENSIVE, DEBUFF, BUFF, SLEEPING, STUNNED, UNKNOWN
 	}
 
 	public Intents intent = Intents.UNKNOWN;
@@ -59,20 +58,16 @@ public abstract class OrbIntent {
 					textColor, this.fontScale);
 		} else if (target instanceof AbstractPlayer) {
 			float BLOCK_ICON_X = -14.0F * Settings.scale;
-			float BLOCK_ICON_Y = -14.0F * Settings.scale;
-			//float HEALTH_BAR_OFFSET_Y = -28.0F * Settings.scale;
-			//float HEALTH_TEXT_OFFSET_Y = 6.0F * Settings.scale;
-			//float HEALTH_BG_OFFSET_X = 31.0F * Settings.scale;
+			float BLOCK_ICON_Y = -80.0F * Settings.scale;
 			float HB_Y_OFFSET_DIST = 12.0F * Settings.scale;
 			float hbYOffset = HB_Y_OFFSET_DIST * 5.0F;
-			float blockOffset = 0;
 			
-			//x = AbstractDungeon.player.hb.cX - AbstractDungeon.player.hb.width / 2.0F;
-		    //y = AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.0F + hbYOffset;
+			x = AbstractDungeon.player.hb.cX - AbstractDungeon.player.hb.width / 2.0F;
+		    y = AbstractDungeon.player.hb.cY - AbstractDungeon.player.hb.height / 2.0F + hbYOffset + (bobEffect.y / 2f);
 			
-		    System.out.println("Drawing player orb");
-			sb.draw(this.img, x + BLOCK_ICON_X - 32.0F, y + BLOCK_ICON_Y - 32.0F + blockOffset, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-			//sb.draw(this.img, x, y);
+			sb.draw(this.img, x + BLOCK_ICON_X, y + BLOCK_ICON_Y, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+			FontHelper.renderFontCentered(sb, FontHelper.cardEnergyFont_L, Integer.toString(amount), x, y - 64.0f,
+					textColor, this.fontScale);
 		}
 	}
 

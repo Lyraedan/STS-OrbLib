@@ -17,6 +17,7 @@ public class OrbOnVictoryPatch {
 					((ExtendedOrb) AbstractDungeon.player.orbs.get(i)).onVictory(__instance.isDying);
 				}
 			}
+			OrbIntentsPatch.orbIntents.get(__instance).clear();
 		}
 	}
 }

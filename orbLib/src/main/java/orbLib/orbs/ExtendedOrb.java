@@ -291,28 +291,28 @@ public abstract class ExtendedOrb extends CustomOrb {
 	/*
 	 * Apply the orbs intent to the target enemy
 	 **/
-	public void AddIntent(AbstractCreature target, OrbIntent orbIntent) {
+	public void addIntent(AbstractCreature target, OrbIntent orbIntent) {
 		AbstractDungeon.actionManager.addToBottom(new AddOrbIntentAction(target, orbIntent));
 	}
 
 	/**
 	 * <summary> Apply the orbs intent to all enemies </summary>
 	 */
-	public void AddIntentAllEnemies(OrbIntent orbIntent) {
+	public void addIntentAllEnemies(OrbIntent orbIntent) {
 		AbstractDungeon.actionManager.addToBottom(new AddOrbIntentAllEnemiesAction(orbIntent));
 	}
 
 	/*
 	 * Remove the orbs intent from the target enemy
 	 **/
-	public void RemoveIntent(AbstractCreature target, OrbIntent orbIntent) {
+	public void removeIntent(AbstractCreature target, OrbIntent orbIntent) {
 		AbstractDungeon.actionManager.addToBottom(new RemoveOrbIntentAction(target, orbIntent));
 	}
 
 	/**
 	 * <summary> Remove the orbs intent from all enemies </summary>
 	 */
-	public void RemoveIntentAllEnemies(OrbIntent orbIntent) {
+	public void removeIntentAllEnemies(OrbIntent orbIntent) {
 		AbstractDungeon.actionManager.addToBottom(new RemoveOrbIntentAllEnemies(orbIntent));
 	}
 

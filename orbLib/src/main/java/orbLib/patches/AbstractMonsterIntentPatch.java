@@ -24,7 +24,7 @@ public class AbstractMonsterIntentPatch {
 		
 		for(int i = 0; i < OrbIntentsPatch.orbIntents.get(__instance).size(); i++) {
 			OrbIntent intent = OrbIntentsPatch.orbIntents.get(__instance).get(i);
-			intent.render(sb, i * 36, 0);
+			intent.render(sb, i * 48, 0);
 		}
 	}
 

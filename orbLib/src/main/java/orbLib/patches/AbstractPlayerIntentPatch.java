@@ -6,10 +6,7 @@ import com.evacipated.cardcrawl.modthespire.lib.Matcher;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertLocator;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
-import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 
 import javassist.CtBehavior;
@@ -25,7 +22,7 @@ public class AbstractPlayerIntentPatch {
 		
 		for(int i = 0; i < OrbIntentsPatch.orbIntents.get(__instance).size(); i++) {
 			OrbIntent intent = OrbIntentsPatch.orbIntents.get(__instance).get(i);
-			intent.render(sb, i * 36, 0);
+			intent.render(sb, i * 48, 0); // What? Overlapping
 		}
 	}
 
@@ -38,10 +35,11 @@ public class AbstractPlayerIntentPatch {
 	}
 }
 
+/*
 @SpirePatch(clz = GameActionManager.class, method = "getNextAction")
 class ClearPlayerOrbIntentPatch {
 	@SpirePostfixPatch
 	public static void ClearOrbIntents(GameActionManager __instance) {
 		OrbIntentsPatch.orbIntents.get(AbstractDungeon.player).clear();
 	}
-}
+}*/

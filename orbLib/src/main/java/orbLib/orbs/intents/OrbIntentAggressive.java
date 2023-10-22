@@ -25,7 +25,7 @@ public class OrbIntentAggressive extends OrbIntent {
 		} else if(amount >= 30) {
 			return "attack_intent_7.png";
 		}
-		return "attack_intent_1.png";
+		return "unknown_intent.png";
 	}
 
 	@Override

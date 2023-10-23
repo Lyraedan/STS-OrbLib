@@ -24,6 +24,9 @@ import com.megacrit.cardcrawl.vfx.combat.DarkOrbActivateEffect;
 import com.megacrit.cardcrawl.vfx.combat.DarkOrbPassiveEffect;
 import com.megacrit.cardcrawl.vfx.combat.OrbFlareEffect;
 
+import orbLib.orbs.intents.OrbIntentDefensive;
+import orbLib.orbs.intents.OrbIntentUnknown;
+
 public class DefectDarkOrb extends ExtendedOrb {
 	public static final String ORB_ID = "Dark";
 
@@ -52,6 +55,7 @@ public class DefectDarkOrb extends ExtendedOrb {
 		this.passiveAmount = this.basePassiveAmount;
 		updateDescription();
 		this.channelAnimTimer = 0.5F;
+		addIntentAllEnemies(new OrbIntentUnknown(AbstractDungeon.player, 1));
 	}
 
 	@Override
@@ -72,6 +76,7 @@ public class DefectDarkOrb extends ExtendedOrb {
 		AbstractDungeon.actionManager.addToTop(
 				(AbstractGameAction) new DarkOrbEvokeAction(new DamageInfo((AbstractCreature) AbstractDungeon.player,
 						this.evokeAmount, DamageInfo.DamageType.THORNS), AbstractGameAction.AttackEffect.FIRE));
+		removeIntentAllEnemies(new OrbIntentUnknown(AbstractDungeon.player, 1));
 	}
 
 	public void onEndOfTurn() {

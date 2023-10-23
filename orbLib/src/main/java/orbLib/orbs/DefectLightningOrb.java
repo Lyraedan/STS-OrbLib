@@ -27,6 +27,8 @@ import com.megacrit.cardcrawl.vfx.combat.LightningOrbActivateEffect;
 import com.megacrit.cardcrawl.vfx.combat.LightningOrbPassiveEffect;
 import com.megacrit.cardcrawl.vfx.combat.OrbFlareEffect;
 
+import orbLib.orbs.intents.OrbIntentUnknown;
+
 public class DefectLightningOrb extends ExtendedOrb {
 	public static final String ORB_ID = "Lightning";
 	  
@@ -49,6 +51,7 @@ public class DefectLightningOrb extends ExtendedOrb {
 	    updateDescription();
 	    this.angle = MathUtils.random(360.0F);
 	    this.channelAnimTimer = 0.5F;
+		addIntentAllEnemies(new OrbIntentUnknown(AbstractDungeon.player, 1));
 	  }
 	  
 	  @Override
@@ -70,6 +73,7 @@ public class DefectLightningOrb extends ExtendedOrb {
 	    } else {
 	      AbstractDungeon.actionManager.addToTop((AbstractGameAction)new LightningOrbEvokeAction(new DamageInfo((AbstractCreature)AbstractDungeon.player, this.evokeAmount, DamageInfo.DamageType.THORNS), false));
 	    } 
+		removeIntentAllEnemies(new OrbIntentUnknown(AbstractDungeon.player, 1));
 	  }
 	  
 	  public void onEndOfTurn() {

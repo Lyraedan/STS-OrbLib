@@ -22,6 +22,8 @@ import com.megacrit.cardcrawl.vfx.combat.OrbFlareEffect;
 import com.megacrit.cardcrawl.vfx.combat.PlasmaOrbActivateEffect;
 import com.megacrit.cardcrawl.vfx.combat.PlasmaOrbPassiveEffect;
 
+import orbLib.orbs.intents.OrbIntentBuff;
+
 public class DefectPlasmaOrb extends ExtendedOrb {
 	public static final String ORB_ID = "Plasma";
 
@@ -54,6 +56,7 @@ public class DefectPlasmaOrb extends ExtendedOrb {
 		updateDescription();
 		this.angle = MathUtils.random(360.0F);
 		this.channelAnimTimer = 0.5F;
+		addIntent(AbstractDungeon.player, new OrbIntentBuff(AbstractDungeon.player, 1));
 	}
 
 	@Override
@@ -69,6 +72,7 @@ public class DefectPlasmaOrb extends ExtendedOrb {
 
 	public void onEvoke() {
 		AbstractDungeon.actionManager.addToTop((AbstractGameAction) new GainEnergyAction(this.evokeAmount));
+		removeIntent(AbstractDungeon.player, new OrbIntentBuff(AbstractDungeon.player, 1));
 	}
 
 	public void onStartOfTurn() {

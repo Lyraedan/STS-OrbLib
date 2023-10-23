@@ -21,6 +21,8 @@ import com.megacrit.cardcrawl.vfx.combat.FrostOrbActivateEffect;
 import com.megacrit.cardcrawl.vfx.combat.FrostOrbPassiveEffect;
 import com.megacrit.cardcrawl.vfx.combat.OrbFlareEffect;
 
+import orbLib.orbs.intents.OrbIntentDefensive;
+
 public class DefectFrostOrb extends ExtendedOrb {
 	public static final String ORB_ID = "Frost";
 
@@ -43,12 +45,13 @@ public class DefectFrostOrb extends ExtendedOrb {
 		this.hFlip2 = MathUtils.randomBoolean();
 		this.ID = "Frost";
 		this.name = orbString.NAME;
-		this.baseEvokeAmount = 5;
+		this.baseEvokeAmount = EVOKE_AMOUNT;
 		this.evokeAmount = this.baseEvokeAmount;
-		this.basePassiveAmount = 2;
+		this.basePassiveAmount = PASSIVE_AMOUNT;
 		this.passiveAmount = this.basePassiveAmount;
 		updateDescription();
 		this.channelAnimTimer = 0.5F;
+		addIntent(AbstractDungeon.player, new OrbIntentDefensive(AbstractDungeon.player, passiveAmount));
 	}
 
 	@Override
@@ -70,6 +73,7 @@ public class DefectFrostOrb extends ExtendedOrb {
 		AbstractDungeon.actionManager
 				.addToTop((AbstractGameAction) new GainBlockAction((AbstractCreature) AbstractDungeon.player,
 						(AbstractCreature) AbstractDungeon.player, this.evokeAmount));
+		removeIntent(AbstractDungeon.player, new OrbIntentDefensive(AbstractDungeon.player, passiveAmount));
 	}
 
 	public void updateAnimation() {

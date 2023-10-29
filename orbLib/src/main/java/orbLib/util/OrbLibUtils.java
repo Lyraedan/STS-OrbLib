@@ -94,6 +94,8 @@ public class OrbLibUtils {
 			EmptyOrbSlot emptyOrbSlot = new EmptyOrbSlot(orb.cX, orb.cY);
 
 			orb.onEvoke();
+			OrbLib.orbListener.OnOrbEvoked(orb.getClass());
+			
 			player.orbs.set(orbIndex, emptyOrbSlot);
 
 			for (int i = orbIndex; i < player.orbs.size() - 1; i++) {
